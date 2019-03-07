@@ -1,0 +1,53 @@
+Goals:
+The application will allow users to find other Fortnite players to play with.
+Pass the Thinkful capstone
+
+Features:
+
+Must:
+Create accounts
+	Server validates username with fortnitetracker API
+Login
+Create Posts
+	Platform
+View posts
+	Topic
+	Deadline
+	Contact Info
+Reply to posts
+	shares username
+	message
+
+
+
+Should:
+Log out
+Edit posts
+Delete posts
+Player regions
+
+
+
+Could:
+Show player stats (From fortnitetracker API)
+Edit Profile
+Game Modes
+Sort posts chronologically
+
+
+Would:
+Allow ads to be displayed
+Reoccuring posts
+
+
+View Posts (public) -> Users sign
+
+
+
+DATA MODEL
+Databases:
+	Users
+	Posts
+		Replies (Subdocument)
+
+3 schemas 2 collections

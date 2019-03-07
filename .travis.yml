@@ -1,2 +1,9 @@
 language: node_js
 node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: m3608UAGiGzlWMGvGb7Mv6cKmMptNWRLvUAWYRAfCcCaKOL64Gyr0ukd3jubKK+19nxGdVkttKKgM/x/NQvfEtrUInW4vzye9XeJaRzlnAJdeTseH7RT2SqOXFb5DBZGNqi8khZzJ9ARCJkYtXuau6NDDaVMHSRGY4TdoVNFgrx0ItOyyXXiPC3rP3mAc5meRYr2o1MdpHD6le8Bgujs4DoyqhfshmldFtlmIoSFncOeGC021iI2hIr0raD58Hd5uUGZQvLvs6oYMJx0VL9XjLkAciohlqiMHrqyBYRZVw9/9ttqQysGo5kKPMyJsI2/2aj6pY8tL+ioGuvQKJhISpLOchR1MIwoq8tzQigGkB/faqqVm77aktvQ+QUF2KJ+fB0s1+r5vnirP/PTWQbgWl1DwxkYgkXP/U+/F9h4kYTCElv6GdFhfH8dj/OspOtpmzImcShAAE/LCaB0M6QkFfMEjVXdrb6bxZjuRjVUAOcZzIDRSmgJaM+F9UQqt+0d2lR1FDG3gYraWgofDk+xxk91OqHXXiPceTPX10SFG9HRlwKUUSSNA6UJCxexV5QxKCGrdGfsAxIqYu6XSAfV23U4/3d9JwMEdBi1Ha6/uBFPw7ZG1dP8bVK673oxNMKxpP+PjsC5YYMW0RaSTqQcDki7br/Okz/EYPPW5liOYBM=
+  app: fierce-tundra-18202
+  on:
+    repo: cbandara/FortNiteLFG

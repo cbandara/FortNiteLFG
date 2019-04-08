@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Fortnite LFG</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Logo Header Section -->
+  <header>
+    <h1>Fortnite LFG</h1>
+    <div class="js-header-section">
+
+    </div>
+  </header>
+  <!-- Controls Section -->
+  <aside class="js-controls-section">
+    <fieldset>
+      <legend>Select one or more platform(s)</legend>
+      <input type="checkbox" name="platform" id="pc" value="pc" checked><label for="pc">PC</label>
+      <input type="checkbox" name="platform" id="xbox" value="xbox" checked><label for="xbox">Xbox</label>
+      <input type="checkbox" name="platform" id="psn" value="psn"><label for="psn">Playstation</label>
+      <input type="submit">
+    </fieldset>
+
+  </aside>
+
+  <!-- Main Section -->
+  <main class="js-content-section">
+    
+    <div>
+      <form class="js-login-form">
+        <label for="username-login">Username:</label>
+        <input type="text" name="username-login" class="username-login">
+        <label for="password-login">Password:</label>
+        <input type="password" name="password-login" class="password-login">
+        <button type="submit">Login</button>
+      </form>
+    </div>
+
+    <div class="js-register-form">
+      <form>
+        <label for="username-register">Username:</label>
+        <input type="text" name="username-register" class="username-register">
+          <label for="password-register">Password:</label>
+          <input type="password" name="password-register" class="password-register">
+          <label for="password-confirm">Confirm Password:</label>
+          <input type="password" name="password-confirm" class="password-confirm">
+          <button type="submit">Login</button>
+        </form>
+    </div>
+  </main>
+
+  <ul class="posts-list">
+    <li class="js-post">
+      <h2 class="post-username">Ninja</h2>
+      <h3 class="posts-platform">PC</h3>
+      <h3 class="posts-platform">NA-EAST</h3>
+      
+      <div>
+        <h3 class="posts-title"></h3>
+        <h3 class="posts-deadline">Expires in 5 hours</h3>
+        <p class="posts-message"> Looking for a person to play duos. Must have K/D ratio over 2.0</p>
+      </div>
+      <div class="replies-section">
+  
+      </div>
+    </li>
+  </ul>
+
+
+
+  <!-- Footer Menu Section -->
+  <footer class="js-footer-section">
+
+  </footer>
+  
+  <script src="script.js"></script>
+</body>
+</html>

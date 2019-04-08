@@ -47,7 +47,22 @@ View Posts (public) -> Users sign
 DATA MODEL
 Databases:
 	Users
+		ID
+		Username
+		Password
 	Posts
+		ID
 		Replies (Subdocument)
+			Date Posted(date)
+			Message
+			Author(ref)
+		Author(ref)
+		Date Posted(date)
+		Deadline(date)
+		Platform(xbox,pc,psn) enum
+		Region(NA-EAST, NA-WEST, Europe) enum
+		Post Name
+		Message
+
 
 3 schemas 2 collections

@@ -1,25 +1,34 @@
 const express = require('express');
 const app = express();
-const User = require('./schema')
-
+// const passport = require('passport')
 const morgan = require('morgan')
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 mongoose.Promise = global.Promise;
 
-app.use(express.static('public'));
+const jsonParser = bodyParser.json();
 
-const { DATABASE_URL, PORT} = require('./config')
+app.use(express.static('public'));
+app.use(bodyParser)
+
+const {DATABASE_URL, PORT} = require('./config')
+const User = require('./schema')
+
 
 app.get('/'), (req, res) => {
   res.status(100).json("message")
 }
 
-app.post('/login', (req, res) => {
-  const loginInfo = User.create(
-    req.body.username,
-    req.body.password
-  )
-  res.status(201).json(loginInfo)
+app.post('/register', jsonParser), (req, res) => {
+  let username = req.body.username;
+  let password = req.body.password;
+  const loginInfo = User.create(username, password);
+  res.status(201).json(loginInfo);
+  console.log(username, password)
+}
+
+app.get('/login', (req, res) => {
+  User.findById(req.body.username)
 })
 
 // $.ajax({

@@ -144,11 +144,11 @@ function displayRegisterPage() {
   $(`.js-content-section`).html(` 
       <form class="js-register-form">
         <label for="username-register">Username:</label>
-        <input type="text" name="username-register" class="username-register">
+        <input type="text" name="username-register" class="username-register" required>
         <label for="password-register">Password:</label>
-        <input type="password" name="password-register" class="password-register">
+        <input type="password" name="password-register" class="password-register" required>
         <label for="password-confirm">Confirm Password:</label>
-        <input type="password" name="password-confirm" class="password-confirm">
+        <input type="password" name="password-confirm" class="password-confirm" required>
         <button type="submit">Login</button>
       </form>
   `)
@@ -160,20 +160,22 @@ function loginRequest(username, password) {
     type: 'POST',
     data: {username, password},
     error : function(err) {
-      console.log('Error!', err)
+      // console.log(username, password)
+     console.log('Error here!', err)
     },
     success: function(data) {
+      console.log(data)
       console.log('Success!')
-      localStorage.setItem('token', data.id_token);
+      // localStorage.setItem('token', data.id_token);
     }
   });
 }
 
 function handleLoginSubmit(event) {
   event.preventDefault();
-  const username = $(event.currentTarget).find('.username-login').val()
-  const password = $(event.currentTarget).find('.password-login').val()
-  loginRequest(username, password)
+  const username = $(event.currentTarget).find('.username-login').val();
+  const password = $(event.currentTarget).find('.password-login').val();
+  loginRequest(username, password);
 }
 
 function registerRequest(username,password) {
@@ -182,7 +184,7 @@ function registerRequest(username,password) {
     type: 'POST',
     data: {username,password},
     error : function(err) {
-      console.log('Error!', err)
+      console.log('Error here!', err)
     },
     success: function(data) {
       console.log('Success!')
@@ -232,7 +234,7 @@ $(function onLoad() {
   else {
     // displayLoginRegisterButton()
     // getPostsRequest(displayPosts)
-    displayLoginPage()
+    displayRegisterPage()
 
     // View Button
     $(`.js-header-section`).on('click', '.js-login-btn', displayLoginPage)

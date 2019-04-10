@@ -1,5 +1,8 @@
-var mongoose = require('mongoose');
-var UserSchema = new mongoose.Schema({
+const uuid = require('uuid')
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise
+
+const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     unique: true,
@@ -11,5 +14,7 @@ var UserSchema = new mongoose.Schema({
     required: true,
   }
 });
-var User = mongoose.model('User', UserSchema);
+
+
+const User = mongoose.model('User', UserSchema);
 module.exports = User;

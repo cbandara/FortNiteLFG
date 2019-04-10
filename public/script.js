@@ -199,12 +199,12 @@ function handleRegisterSubmit(event) {
   const username = $(event.currentTarget).find('.username-register').val()
   const password = $(event.currentTarget).find('.password-register').val()
   const passwordConfirm = $(event.currentTarget).find('.password-confirm').val()
-  console.log(username, password, passwordConfirm)
+  
   if (password === passwordConfirm) {
     registerRequest(username,password)
   }
   else {
-    // Password confirm error
+    console.error("Passwords did not match")
   }
   
 }

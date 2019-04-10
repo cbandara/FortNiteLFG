@@ -6,13 +6,15 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 mongoose.Promise = global.Promise;
 
+const User = require('./schema')
+
 const jsonParser = bodyParser.json();
 
 app.use(express.static('public'));
 app.use(bodyParser)
 
 const {DATABASE_URL, PORT} = require('./config')
-const User = require('./schema')
+
 
 
 app.get('/'), (req, res) => {
@@ -20,11 +22,36 @@ app.get('/'), (req, res) => {
 }
 
 app.post('/register', jsonParser), (req, res) => {
+  console.log("made it to endpoint")
+  const requiredFields = ['username', 'password']
+  for (let i = 0; i < requiredFields.length; i++) {
+    const field = requiredFields[i]
+    if (!(field in req.body)) {
+      const message =  `Missing \`${field}\` in request body`
+      console.error(message)
+      return res.status(400).send(message)
+    }
+  }
   let username = req.body.username;
   let password = req.body.password;
-  const loginInfo = User.create(username, password);
-  res.status(201).json(loginInfo);
-  console.log(username, password)
+  User.findOne(username)
+  .then(user => {
+    if (user) {
+      const message = `username is already taken`
+      console.error(message)
+      return res.status(400).send(message)
+    }
+    else {
+      User.create({username, password})
+      .then(user => res.status(201).json(user)
+      console.log("made it to else")
+      )
+    }
+  })
+  .catch(err => {
+    console.error(err)
+    res.status(500).json({ error: 'something went horribly wrong'})
+  })
 }
 
 app.get('/login', (req, res) => {

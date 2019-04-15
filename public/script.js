@@ -149,6 +149,12 @@ function displayRegisterPage() {
         <input type="password" name="password-register" class="password-register" required>
         <label for="password-confirm">Confirm Password:</label>
         <input type="password" name="password-confirm" class="password-confirm" required>
+        <fieldset>
+          <legend>Select one platform</legend>
+          <input type="radio" name="platform" id="pc" value="pc" checked><label for="pc">PC</label>
+          <input type="radio" name="platform" id="xbox" value="xbox" checked><label for="xbox">Xbox</label>
+          <input type="radio" name="platform" id="psn" value="psn"><label for="psn">Playstation</label>
+        </fieldset>
         <button type="submit">Login</button>
       </form>
   `)
@@ -158,7 +164,8 @@ function loginRequest(username, password) {
   $.ajax({
     url: "http://localhost:8080/login",
     type: 'POST',
-    data: {username, password},
+    data: JSON.stringify({username, password}),
+    contentType: "application/json",
     error : function(err) {
       // console.log(username, password)
      console.log('Error here!', err)
@@ -178,11 +185,12 @@ function handleLoginSubmit(event) {
   loginRequest(username, password);
 }
 
-function registerRequest(username,password) {
+function registerRequest(username,password, platform) {
   $.ajax({
     url: "http://localhost:8080/register",
     type: 'POST',
-    data: {username,password},
+    data: JSON.stringify({username,password, platform}),
+    contentType: "application/json",
     error : function(err) {
       console.log('Error here!', err)
     },
@@ -199,9 +207,10 @@ function handleRegisterSubmit(event) {
   const username = $(event.currentTarget).find('.username-register').val()
   const password = $(event.currentTarget).find('.password-register').val()
   const passwordConfirm = $(event.currentTarget).find('.password-confirm').val()
+  const platform = $(event.currentTarget).find('[name=platform]:checked').val()
   
   if (password === passwordConfirm) {
-    registerRequest(username,password)
+    registerRequest(username,password, platform)
   }
   else {
     console.error("Passwords did not match")

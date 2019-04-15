@@ -1,4 +1,4 @@
-const uuid = require('uuid')
+// const uuid = require('uuid')
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise
 
@@ -12,6 +12,10 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+  platform: {
+    type: Array,
+    required:true,
   }
 });
 

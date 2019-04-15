@@ -1,6 +1,7 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
-// const passport = require('passport')
+const axios = require('axios');
 const morgan = require('morgan')
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -11,18 +12,15 @@ const User = require('./schema')
 const jsonParser = bodyParser.json();
 
 app.use(express.static('public'));
-app.use(bodyParser)
 
 const {DATABASE_URL, PORT} = require('./config')
 
 
-
-app.get('/'), (req, res) => {
+app.get('/', (req, res) => {
   res.status(100).json("message")
-}
+})
 
-app.post('/register', jsonParser), (req, res) => {
-  console.log("made it to endpoint")
+app.post('/register', jsonParser, (req, res) => {
   const requiredFields = ['username', 'password']
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i]
@@ -32,44 +30,65 @@ app.post('/register', jsonParser), (req, res) => {
       return res.status(400).send(message)
     }
   }
+  
   let username = req.body.username;
   let password = req.body.password;
-  User.findOne(username)
-  .then(user => {
-    if (user) {
-      const message = `username is already taken`
-      console.error(message)
-      return res.status(400).send(message)
-    }
-    else {
-      User.create({username, password})
-      .then(user => res.status(201).json(user)
-      console.log("made it to else")
-      )
-    }
-  })
-  .catch(err => {
-    console.error(err)
-    res.status(500).json({ error: 'something went horribly wrong'})
-  })
-}
+  let platform = req.body.platform;
 
-app.get('/login', (req, res) => {
-  User.findById(req.body.username)
+  axios.get(`https://api.fortnitetracker.com/v1/profile/${platform}/${username}`, {
+    headers: {
+      'TRN-Api-Key': process.env.FORTNITE_API_KEY
+    }
+  })
+    .then(response => {
+      console.log(response.data)
+      if (!response.data.epicUserHandle) {
+        return res.status(400).send("Could not find epic username")
+      }
+      else return User.findOne({username})
+        .then(user => {
+          if (user) {
+            const message = `username is already taken`
+            console.error(message)
+            return res.status(400).send(message)
+          }
+          else {
+            // axios.get('https://api.fortnitetracker.com/v1/profile/pc/ninja')
+            // .then(response => {
+            //   console.log(response.data.url);
+            //   console.log(response.data);
+            // })
+            // .catch(error => {
+            //   console.log(error);
+            // });
+    
+            User.create({username, password})
+            .then(user => {
+              const userRes = {
+                id: user._id,
+                username: user.username
+              }
+        
+              res.status(201).json(userRes)
+            }
+            )
+          }
+        })
+    })
+    .catch(err => {
+      console.error(err)
+      res.status(500).json({ error: 'something went horribly wrong'})
+    })
+
 })
 
-// $.ajax({
-//   url: "http://localhost:8080/login",
-//   type: 'GET',
-//   // Fetch the stored token from localStorage and set in the header
-//   headers: {"Authorization": localStorage.getItem('token')}
-// });
-
-// $.ajax({
-//   url: "http://localhoust:8080/register",
-//   type: 'GET'
-// })
-
+app.get('/login', (req, res) => {
+  const usernameReq = User.findById(req.body.username);
+  if (usernameReq) {
+    console.log(usernameReq)
+    res.status(201).json(usernameReq)
+  }
+})
 
 let server;
 

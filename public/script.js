@@ -230,10 +230,10 @@ $(function onLoad() {
   // Create Token?
   
   let loggedIn = false
-
-  displayFilterControls()
+  
   if (loggedIn) {
     displayHeaderButtons()
+    displayFilterControls()
     getPostsRequest(displayPosts)
 
     $(`.js-main-section`).on('click', '.create-btn', displayCreatePostPage)

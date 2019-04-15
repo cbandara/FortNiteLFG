@@ -45,7 +45,7 @@ app.post('/register', jsonParser, (req, res) => {
       if (!response.data.epicUserHandle) {
         return res.status(400).send("Could not find epic username")
       }
-      else return User.findOne({username})
+      else {return User.findOne({username})
         .then(user => {
           if (user) {
             const message = `username is already taken`
@@ -53,27 +53,17 @@ app.post('/register', jsonParser, (req, res) => {
             return res.status(400).send(message)
           }
           else {
-            // axios.get('https://api.fortnitetracker.com/v1/profile/pc/ninja')
-            // .then(response => {
-            //   console.log(response.data.url);
-            //   console.log(response.data);
-            // })
-            // .catch(error => {
-            //   console.log(error);
-            // });
-    
             User.create({username, password})
             .then(user => {
               const userRes = {
                 id: user._id,
                 username: user.username
               }
-        
               res.status(201).json(userRes)
-            }
-            )
+            })
           }
         })
+      }
     })
     .catch(err => {
       console.error(err)

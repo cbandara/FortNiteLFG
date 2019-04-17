@@ -192,12 +192,12 @@ function handleLoginSubmit(event) {
 
 function registerRequest(username,password, platform) {
   $.ajax({
-    url: "http://localhost:8080/register",
+    url: "http://localhost:8080/api/register",
     type: 'POST',
     data: JSON.stringify({username,password, platform}),
     contentType: "application/json",
     error : function(err) {
-      console.log('Error here!', err)
+      $('.alert-section').html(`<p>${err.responseText}</p>`)
     },
     success: function(data) {
       console.log('Success!')

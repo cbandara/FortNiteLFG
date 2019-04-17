@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 })
 
 
-app.post('/register', jsonParser, (req, res) => {
+app.post('/api/register', jsonParser, (req, res) => {
   const requiredFields = ['username', 'password']
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i]

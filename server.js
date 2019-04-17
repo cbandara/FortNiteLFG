@@ -8,17 +8,15 @@ const bodyParser = require('body-parser');
 mongoose.Promise = global.Promise;
 
 const User = require('./schema')
-
 const jsonParser = bodyParser.json();
-
 app.use(express.static('public'));
-
 const {DATABASE_URL, PORT} = require('./config')
 
 
 app.get('/', (req, res) => {
   res.status(100).json("message")
 })
+
 
 app.post('/register', jsonParser, (req, res) => {
   const requiredFields = ['username', 'password']

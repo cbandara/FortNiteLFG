@@ -33,6 +33,7 @@ function displayFilterControls() {
   `) 
 }
 
+
 function displayLoginRegisterButton() {
   $(`.js-header-section`).html(`
     <button type="button" class="js-login-btn">Login</button>
@@ -77,7 +78,6 @@ function getPostsRequest(success) {
       }
     ]
   }]
-
   // AJAX request
   // $.ajax({
   //   url: `${BASE_URL}/${id}`,
@@ -90,6 +90,7 @@ function getPostsRequest(success) {
   }, 500)
 
 }
+
 
 function generatePostElement(post) {
   const listOfReplies = post.replies.map((reply) => `
@@ -119,6 +120,7 @@ function generatePostElement(post) {
 `
 }
 
+
 function displayPosts(posts) {
   const listOfPosts = posts.map((post) => generatePostElement(post))
   $(`.js-content-section`).html(`
@@ -127,6 +129,7 @@ function displayPosts(posts) {
     </ul>
   `)
 }
+
 
 function displayLoginPage() {
   $(`.js-content-section`).html(`
@@ -140,6 +143,7 @@ function displayLoginPage() {
   `)
 }
 
+
 function displayRegisterPage() {
   $(`.js-content-section`).html(` 
       <form class="js-register-form">
@@ -149,16 +153,17 @@ function displayRegisterPage() {
         <input type="password" name="password-register" class="password-register" required>
         <label for="password-confirm">Confirm Password:</label>
         <input type="password" name="password-confirm" class="password-confirm" required>
-        <fieldset>
+        
           <legend>Select one platform</legend>
           <input type="radio" name="platform" id="pc" value="pc" checked><label for="pc">PC</label>
-          <input type="radio" name="platform" id="xbox" value="xbox" checked><label for="xbox">Xbox</label>
+          <input type="radio" name="platform" id="xbox" value="xbox"<label for="xbox">Xbox</label>
           <input type="radio" name="platform" id="psn" value="psn"><label for="psn">Playstation</label>
-        </fieldset>
+        
         <button type="submit">Login</button>
       </form>
   `)
 }
+
 
 function loginRequest(username, password) {
   $.ajax({
@@ -167,16 +172,15 @@ function loginRequest(username, password) {
     data: JSON.stringify({username, password}),
     contentType: "application/json",
     error : function(err) {
-      // console.log(username, password)
      console.log('Error here!', err)
     },
     success: function(data) {
       console.log(data)
       console.log('Success!')
-      // localStorage.setItem('token', data.id_token);
     }
   });
 }
+
 
 function handleLoginSubmit(event) {
   event.preventDefault();
@@ -184,6 +188,7 @@ function handleLoginSubmit(event) {
   const password = $(event.currentTarget).find('.password-login').val();
   loginRequest(username, password);
 }
+
 
 function registerRequest(username,password, platform) {
   $.ajax({
@@ -196,7 +201,6 @@ function registerRequest(username,password, platform) {
     },
     success: function(data) {
       console.log('Success!')
-      // What do I put here?
     }
   });
 }
@@ -208,15 +212,17 @@ function handleRegisterSubmit(event) {
   const password = $(event.currentTarget).find('.password-register').val()
   const passwordConfirm = $(event.currentTarget).find('.password-confirm').val()
   const platform = $(event.currentTarget).find('[name=platform]:checked').val()
-  
-  if (password === passwordConfirm) {
-    registerRequest(username,password, platform)
+  console.log(Response.JSON)
+  if (password===passwordConfirm) {
+    registerRequest(username, password, platform)
+    $('.alert-section').html(`<p></p>`)
   }
   else {
-    console.error("Passwords did not match")
+    $('.alert-section').html(`<p>Passwords must match</p>`)
   }
   
 }
+
 
 $(function onLoad() {
   

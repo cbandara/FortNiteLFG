@@ -20,9 +20,9 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-const PostSchema = new mongoose.Schema({
+// const PostSchema = new mongoose.Schema({
 
-})
+// })
 
 UserSchema.methods.serialize = function() {
   return {

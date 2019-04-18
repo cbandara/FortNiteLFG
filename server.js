@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 
 const {DATABASE_URL, PORT} = require('./config')
-const {authRouter, localStrategy } = require('./auth/strategies')
+const {router: authRouter, localStrategy, jwtStrategy } = require('./auth')
 const app = express();
 
 mongoose.Promise = global.Promise;

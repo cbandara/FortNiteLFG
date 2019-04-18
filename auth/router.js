@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 const router = express.Router();
 
-const User = require('./schema')
+const User = require('../schema')
 
 const jsonParser = bodyParser.json()
 
@@ -19,7 +19,7 @@ const createAuthToken = function(user) {
   })
 }
 
-app.post('/api/register', jsonParser, (req, res) => {
+router.post('/api/register', jsonParser, (req, res) => {
   const requiredFields = ['username', 'password']
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i]
@@ -76,7 +76,7 @@ app.post('/api/register', jsonParser, (req, res) => {
 
 const localAuth = passport.authenticate('local', {session: false})
 
-app.post('/api/login', jsonParser, localAuth, (req, res) => {
+router.post('/api/login', jsonParser, localAuth, (req, res) => {
   const authToken = createAuthToken(req.user)
   res.json({authToken})
 })

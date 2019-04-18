@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const morgan = require('morgan')
 
 // const {DATABASE_URL, PORT} = require('./config')
 
@@ -14,7 +15,7 @@ const { PORT, DATABASE_URL } = require('./config');
 
 const app = express();
 // app.use(express.static('public'));
-//app.use(morgan('common'))
+app.use(morgan('common'))
 
 // CORS????
 // app.use(function (req, res, next) {

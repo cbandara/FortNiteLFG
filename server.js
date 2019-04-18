@@ -9,7 +9,7 @@ const app = express();
 
 mongoose.Promise = global.Promise;
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
 //app.use(morgan('common'))
 
 // CORS????

@@ -3,14 +3,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
 
-const {DATABASE_URL, PORT} = require('./config')
+// const {DATABASE_URL, PORT} = require('./config')
 
 const { router: usersRouter } = require('./users');
 const {router: authRouter, localStrategy, jwtStrategy } = require('./auth')
 
 
 mongoose.Promise = global.Promise;
-
+const { PORT, DATABASE_URL } = require('./config');
 
 const app = express();
 // app.use(express.static('public'));

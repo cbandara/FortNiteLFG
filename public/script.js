@@ -159,7 +159,7 @@ function displayRegisterPage() {
           <input type="radio" name="platform" id="xbox" value="xbox"<label for="xbox">Xbox</label>
           <input type="radio" name="platform" id="psn" value="psn"><label for="psn">Playstation</label>
         
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
       </form>
   `)
 }
@@ -167,7 +167,7 @@ function displayRegisterPage() {
 
 function loginRequest(username, password) {
   $.ajax({
-    url: "http://localhost:8080/login",
+    url: "http://localhost:8080/api/login",
     type: 'POST',
     data: JSON.stringify({username, password}),
     contentType: "application/json",

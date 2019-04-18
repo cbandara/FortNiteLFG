@@ -1,5 +1,7 @@
 // const uuid = require('uuid')
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt')
+
 mongoose.Promise = global.Promise
 
 const UserSchema = new mongoose.Schema({
@@ -19,6 +21,14 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
+const PostSchema = new mongoose.Schema({
+
+})
+
+
+UserSchema.methods.validatePassword = function(password) {
+  return bcrypt.compare(password, this.password)
+}
 
 const User = mongoose.model('User', UserSchema);
-module.exports = User;
+module.exports = { User };

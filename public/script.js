@@ -167,7 +167,7 @@ function displayRegisterPage() {
 
 function loginRequest(username, password) {
   $.ajax({
-    url: "http://localhost:8080/api/login",
+    url: "http://localhost:8080/api/users",
     type: 'POST',
     data: JSON.stringify({username, password}),
     contentType: "application/json",

@@ -17,64 +17,65 @@ const createAuthToken = function(user) {
   })
 }
 
-router.post('/register', jsonParser, (req, res) => {
-  const requiredFields = ['username', 'password']
-  for (let i = 0; i < requiredFields.length; i++) {
-    const field = requiredFields[i]
-    if (!(field in req.body)) {
-      const message =  `Missing \`${field}\` in request body`
-      console.error(message)
-      return res.status(400).send(message)
-    }
-  }
+// router.post('/register', jsonParser, (req, res) => {
+//   const requiredFields = ['username', 'password']
+//   for (let i = 0; i < requiredFields.length; i++) {
+//     const field = requiredFields[i]
+//     if (!(field in req.body)) {
+//       const message =  `Missing \`${field}\` in request body`
+//       console.error(message)
+//       return res.status(400).send(message)
+//     }
+//   }
   
-  let username = req.body.username;
-  let password = req.body.password;
-  let platform = req.body.platform;
+//   let username = req.body.username;
+//   let password = req.body.password;
+//   let platform = req.body.platform;
 
-  axios.get(`https://api.fortnitetracker.com/v1/profile/${platform}/${username}`, {
-    headers: {
-      'TRN-Api-Key': process.env.FORTNITE_API_KEY
-    }
-  })
-    .then(response => {
-      console.log(response.data)
-      if (!response.data.epicUserHandle) {
-        return res.status(400).send("Could not find epic username")
-      }
-      else {return User.findOne({username})
-        .then(user => {
-          if (user) {
-            const message = `username is already taken`
-            console.error(message)
-            return res.status(400).send(message)
-          }
-          else {
+//   axios.get(`https://api.fortnitetracker.com/v1/profile/${platform}/${username}`, {
+//     headers: {
+//       'TRN-Api-Key': process.env.FORTNITE_API_KEY
+//     }
+//   })
+//     .then(response => {
+//       console.log(response.data)
+//       if (!response.data.epicUserHandle) {
+//         return res.status(400).send("Could not find epic username")
+//       }
+//       else {return User.findOne({username})
+//         .then(user => {
+//           if (user) {
+//             const message = `username is already taken`
+//             console.error(message)
+//             return res.status(400).send(message)
+//           }
+//           else {
 
-            // Create Token Here?
-            User.create({username, password})
-            .then(user => {
-              const userRes = {
-                id: user._id,
-                username: user.username
-              }
-              res.status(201).json(userRes)
-            })
-          }
-        })
-      }
-    })
-    .catch(err => {
-      console.error(err)
-      res.status(500).json({ error: 'something went horribly wrong'})
-    })
+//             // Create Token Here?
+//             User.create({username, password})
+//             .then(user => {
+//               const userRes = {
+//                 id: user._id,
+//                 username: user.username
+//               }
+//               res.status(201).json(userRes)
+//             })
+//           }
+//         })
+//       }
+//     })
+//     .catch(err => {
+//       console.error(err)
+//       res.status(500).json({ error: 'something went horribly wrong'})
+//     })
 
-})
+// })
 
 
 const localAuth = passport.authenticate('local', {session: false})
 
-router.post('/login', jsonParser, localAuth, (req, res) => {
+router.use(bodyParser.json())
+router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize())
   res.json({authToken})
 })

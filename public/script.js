@@ -172,7 +172,7 @@ function loginRequest(username, password) {
     data: JSON.stringify({username, password}),
     contentType: "application/json",
     error : function(err) {
-     console.log('Error here!', err)
+      $('.alert-section').html(`<p>${err.responseText}</p>`)
     },
     success: function(data) {
       console.log(data)
@@ -192,7 +192,7 @@ function handleLoginSubmit(event) {
 
 function registerRequest(username,password, platform) {
   $.ajax({
-    url: "http://localhost:8080/api/register",
+    url: "http://localhost:8080/api/users",
     type: 'POST',
     data: JSON.stringify({username,password, platform}),
     contentType: "application/json",

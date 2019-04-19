@@ -1,3 +1,4 @@
+'use strict';
 require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
@@ -43,9 +44,10 @@ app.get('/api/protected', jwtAuth, (req, res) => {
   });
 });
 
-app.get('/api', (req, res) => {
-  res.status(100).json("message")
-})
+app.use('*', (req, res) => {
+  return res.status(404).json({ message: 'Not Found' });
+});
+
 
 // app.use('*', (req, res) => {
 //   return res.status(404).json({ message: 'Not Found' });

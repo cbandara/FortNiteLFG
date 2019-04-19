@@ -17,7 +17,7 @@ const createAuthToken = function(user) {
   })
 }
 
-router.post('/api/register', jsonParser, (req, res) => {
+router.post('/register', jsonParser, (req, res) => {
   const requiredFields = ['username', 'password']
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i]
@@ -74,7 +74,7 @@ router.post('/api/register', jsonParser, (req, res) => {
 
 const localAuth = passport.authenticate('local', {session: false})
 
-router.post('/api/login', jsonParser, localAuth, (req, res) => {
+router.post('/login', jsonParser, localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize())
   res.json({authToken})
 })

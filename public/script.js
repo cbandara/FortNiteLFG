@@ -167,7 +167,7 @@ function displayRegisterPage() {
 
 function loginRequest(username, password) {
   $.ajax({
-    url: "http://localhost:8080/api/users",
+    url: "http://localhost:8080/api/auth/login",
     type: 'POST',
     data: JSON.stringify({username, password}),
     contentType: "application/json",
@@ -247,9 +247,9 @@ $(function onLoad() {
     // $(`.js-header-section`).on('click'), '.logout-btn', logOut)
   }
   else {
-    // displayLoginRegisterButton()
-    // getPostsRequest(displayPosts)
-    displayRegisterPage()
+    displayLoginRegisterButton()
+    getPostsRequest(displayPosts)
+    // displayRegisterPage()
 
     // View Button
     $(`.js-header-section`).on('click', '.js-login-btn', displayLoginPage)

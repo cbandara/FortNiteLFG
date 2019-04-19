@@ -131,6 +131,7 @@ router.post('/', jsonParser, (req, res) => {
           })
           .then(user => {
             return res.status(201).json(user.serialize());
+            // NEEDS REDIRECT TO LOGIN PAGE
           })
           .catch(err => {
             // Forward validation errors on to the client, otherwise give a 500
@@ -148,10 +149,10 @@ router.post('/', jsonParser, (req, res) => {
 // we're just doing this so we have a quick way to see
 // if we're creating users. keep in mind, you can also
 // verify this in the Mongo shell.
-router.get('/', (req, res) => {
-  return User.find()
-    .then(users => res.json(users.map(user => user.serialize())))
-    .catch(err => res.status(500).json({message: 'Internal server error'}));
-});
+// router.get('/', (req, res) => {
+//   return User.find()
+//     .then(users => res.json(users.map(user => user.serialize())))
+//     .catch(err => res.status(500).json({message: 'Internal server error'}));
+// });
 
 module.exports = {router};

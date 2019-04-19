@@ -175,7 +175,7 @@ function loginRequest(username, password) {
       $('.alert-section').html(`<p>${err.responseText}</p>`)
     },
     success: function(data) {
-      console.log(data)
+    
       console.log('Success!')
     }
   });

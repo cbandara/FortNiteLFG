@@ -16,6 +16,10 @@ h1 {
   font-family: 'Kaushan Script', cursive;
 }
 
+h2 {
+  text-decoration: underline;
+}
+
 .js-header-section, .js-controls-section {
   text-align: center;
   padding-bottom: 20px;
@@ -25,7 +29,8 @@ h1 {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 70%;
+  width: 80%;
+  max-width: 1000px;
   
 }
 
@@ -33,7 +38,7 @@ button, .platform-submit {
   background-color: transparent;
   color: white;
   font-size: 16px;
-  border: 2px solid white;
+  border: 3px solid white;
   border-radius: 40px;
   width: 130px;
   height: 40px;
@@ -44,7 +49,7 @@ button:hover, .platform-submit:hover {
   background-color: white;
   color: #3c1053;
   font-size: 16px;
-  border: 2px solid transparent;
+  border: 3px solid transparent;
   border-radius: 40px;
   width: 130px;
   height: 40px;
@@ -71,13 +76,22 @@ form>* {
 
 ul {
   list-style-type: none;
+  padding-inline-start: 0px;
 }
 
 .js-post {
   padding-left: 30px;
-  padding-right 30px;
-  border: 2px solid #3c1053;
-  border-radius: 5px;
+  padding-bottom: 30px;
+  border: 2px solid rgb(40, 11, 56, 0.4);
+  border-radius: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.filter-legend {
+  margin-bottom: 10px;
+}
+
+.post-info>* {
+  display:inline;
 }

@@ -22,6 +22,7 @@ function displayHeaderButtons() {
     <button type="button" class="js-create-post-btn">Create Post</button>
     <button type="button" class="js-logout-btn">Logout</button>
   `)
+  
 }
 
 
@@ -185,7 +186,6 @@ function loginRequest(username, password) {
       displayHeaderButtons()
       displayFilterControls()
       getPostsRequest(displayPosts)
-      $(`.js-header-section`).on('click'), '.js-logout-btn')
     }
   });
 }
@@ -232,6 +232,7 @@ function handleRegisterSubmit(event) {
 
 
 function handleLogOut() {
+  localStorage.clear()
   displayLoginRegisterButton()
   getPostsRequest(displayPosts)
 }
@@ -256,7 +257,7 @@ $(function onLoad() {
     getPostsRequest(displayPosts)
 
     // $(`.js-main-section`).on('click', '.create-btn', displayCreatePostPage)
-    // $(`.js-header-section`).on('click'), '.js-logout-btn')
+    $(`.js-header-section`).on('click', '.js-logout-btn', handleLogOut)
   }
   else {
     displayLoginRegisterButton()

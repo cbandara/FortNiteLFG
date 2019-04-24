@@ -30,13 +30,11 @@ function displayFilterControls() {
   // Should the name be the same as the id and value?
   // Set what gets displayed when an item is checked (repopulate posts)
   $(`.js-controls-section`).html(`
-    <fieldset>
       <legend>Select one or more platform(s)</legend>
       <input type="checkbox" name="platform" id="pc" value="pc" checked><label for="pc">PC</label>
       <input type="checkbox" name="platform" id="xbox" value="xbox" checked><label for="xbox">Xbox</label>
       <input type="checkbox" name="platform" id="psn" value="psn"><label for="psn">Playstation</label>
-      <input type="submit">
-    </fieldset>
+      <input type="submit" class="platform-submit" value="Search">
   `) 
 }
 
@@ -121,8 +119,34 @@ function generatePostElement(post) {
       <ul class="replies-section">
         ${listOfReplies.join('')}
       </ul>
-      <button type="button" class="view-btn">View</button>
-      <button type="button class="reply-btn">Reply</button>
+    </li>
+`
+}
+
+function generatePostElementProtected(post) {
+  const listOfReplies = post.replies.map((reply) => `
+    <li>
+      <p class="reply-author">${reply.author}</p>
+      <p class="reply-message">${reply.message}</p>
+      <p class="reply-date">${reply.datePosted}</p>
+    </li>
+  `)
+  return `
+    <li class="js-post">
+      <h2 class="posts-title">${post.postName}</h2>
+      <p class="post-username">${post.author}</p>
+      <p class="posts-platform">${post.platform}</p>
+      <p class="posts-platform">${post.region}</p>
+    
+      <div>
+        <hp class="posts-deadline">${post.deadline}</p>
+        <p class="posts-message">${post.message}</p>
+      </div>
+      <ul class="replies-section">
+        ${listOfReplies.join('')}
+      </ul>
+      <button type="button" class="js-view-btn">View</button>
+      <button type="button class="js-reply-btn">Reply</button>
     </li>
 `
 }
@@ -137,14 +161,26 @@ function displayPosts(posts) {
   `)
 }
 
+function displayPostsProtected(posts) {
+  const listOfPosts = posts.map((post) => generatePostElementProtected(post))
+  $(`.js-content-section`).html(`
+    <ul class="posts-list">
+      ${listOfPosts.join('')}
+    </ul>
+  `)
+  $(`.alert-section`).html(``)
+}
 
 function displayLoginPage() {
+  $(`.js-header-section`).html(``)
   $(`.js-content-section`).html(`
     <form class="js-login-form">
       <label for="username-login">Username:</label>
       <input type="text" name="username-login" class="username-login">
+      <br>
       <label for="password-login">Password:</label>
       <input type="password" name="password-login" class="password-login">
+      <br>
       <button type="submit">Login</button>
     </form>
   `)
@@ -185,7 +221,9 @@ function loginRequest(username, password) {
       localStorage.setItem('token', data.authToken)
       displayHeaderButtons()
       displayFilterControls()
-      getPostsRequest(displayPosts)
+      getPostsRequest(displayPostsProtected)
+      $(`.js-header-section`).on('click', '.js-logout-btn', handleLogOut)
+      // $(`.js-header-section`).on('click', '.js-create-post-btn', handleCreatePost)
     }
   });
 }
@@ -233,8 +271,7 @@ function handleRegisterSubmit(event) {
 
 function handleLogOut() {
   localStorage.clear()
-  displayLoginRegisterButton()
-  getPostsRequest(displayPosts)
+  document.location.reload()
 }
 
 
@@ -255,13 +292,14 @@ $(function onLoad() {
     displayHeaderButtons()
     displayFilterControls()
     getPostsRequest(displayPosts)
-
-    // $(`.js-main-section`).on('click', '.create-btn', displayCreatePostPage)
     $(`.js-header-section`).on('click', '.js-logout-btn', handleLogOut)
+    // $(`.js-main-section`).on('click', '.create-btn', displayCreatePostPage)
   }
   else {
     displayLoginRegisterButton()
     getPostsRequest(displayPosts)
+    $(`.js-view-btn`).css( "display", "none" )
+    $(`.js-reply-btn`).css( "display", "none" )
     // displayRegisterPage()
 
     // View Button

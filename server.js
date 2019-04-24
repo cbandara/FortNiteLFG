@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const morgan = require('morgan')
 
-// const {DATABASE_URL, PORT} = require('./config')
 
 const { router: usersRouter } = require('./users');
 const {router: authRouter, localStrategy, jwtStrategy } = require('./auth')

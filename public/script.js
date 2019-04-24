@@ -17,6 +17,12 @@
 
 // When user clicks - Reply button
 
+function displayHeaderButtons() {
+  $(`.js-header-section`).html(`
+    <button type="button" class="js-create-post-btn">Create Post</button>
+    <button type="button" class="js-logout-btn">Logout</button>
+  `)
+}
 
 
 function displayFilterControls() {
@@ -175,8 +181,11 @@ function loginRequest(username, password) {
       $('.alert-section').html(`<p>${err.responseText}</p>`)
     },
     success: function(data) {
-    
-      console.log('Success!')
+      localStorage.setItem('token', data.authToken)
+      displayHeaderButtons()
+      displayFilterControls()
+      getPostsRequest(displayPosts)
+      $(`.js-header-section`).on('click'), '.js-logout-btn')
     }
   });
 }
@@ -200,7 +209,6 @@ function registerRequest(username,password, platform) {
       $('.alert-section').html(`<p>${err.responseText}</p>`)
     },
     success: function(data) {
-      console.log('Success!')
     }
   });
 }
@@ -212,7 +220,6 @@ function handleRegisterSubmit(event) {
   const password = $(event.currentTarget).find('.password-register').val()
   const passwordConfirm = $(event.currentTarget).find('.password-confirm').val()
   const platform = $(event.currentTarget).find('[name=platform]:checked').val()
-  console.log(Response.JSON)
   if (password===passwordConfirm) {
     registerRequest(username, password, platform)
     $('.alert-section').html(`<p></p>`)
@@ -221,6 +228,12 @@ function handleRegisterSubmit(event) {
     $('.alert-section').html(`<p>Passwords must match</p>`)
   }
   
+}
+
+
+function handleLogOut() {
+  displayLoginRegisterButton()
+  getPostsRequest(displayPosts)
 }
 
 
@@ -235,16 +248,15 @@ $(function onLoad() {
   // Read from
   // Create Token?
   
-  let loggedIn = false
+  let loggedIn = localStorage.getItem('token')
   
   if (loggedIn) {
     displayHeaderButtons()
     displayFilterControls()
     getPostsRequest(displayPosts)
 
-    $(`.js-main-section`).on('click', '.create-btn', displayCreatePostPage)
-
-    // $(`.js-header-section`).on('click'), '.logout-btn', logOut)
+    // $(`.js-main-section`).on('click', '.create-btn', displayCreatePostPage)
+    // $(`.js-header-section`).on('click'), '.js-logout-btn')
   }
   else {
     displayLoginRegisterButton()

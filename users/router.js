@@ -103,7 +103,6 @@ router.post('/', jsonParser, (req, res) => {
     }
   })
     .then(response => {
-      console.log(response.data)
       if (!response.data.epicUserHandle) {
         return res.status(400).send("Could not find epic username")
       }

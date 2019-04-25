@@ -30,11 +30,10 @@ h2 {
 }
 
 .js-content-section {
-  display: block;
-  margin-left: auto;
+  /* margin-left: auto;
   margin-right: auto;
   width: 80%;
-  max-width: 1000px;
+  max-width: 1000px; */
   padding-bottom: 100px;
   
 }
@@ -86,6 +85,7 @@ ul {
 
 .js-post {
   padding-left: 30px;
+  padding-right: 30px;
   padding-bottom: 30px;
   padding-top: 30px;
   background: rgb(40, 11, 56, 0.4);
@@ -94,7 +94,8 @@ ul {
   margin-bottom: 20px;
   margin-left: auto;
   margin-right: auto;
-  width: 700px;
+  width: 60%;
+  max-width: 800px;
 }
 
 .filter-legend {
@@ -115,4 +116,15 @@ ul {
 .banner-img {
   margin-left: auto;
   margin-right: auto;
+}
+
+@media only screen and (max-width: 1000px) {
+  .banner {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .js-post {
+    width: 60%;
+  }
 }

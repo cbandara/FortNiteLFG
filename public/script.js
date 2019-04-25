@@ -82,6 +82,23 @@ function getPostsRequest(success) {
         author: "user3"
       }
     ]
+  },
+  {
+    postName: "Tournament",
+    author: "sypherPK",
+    platform:"Xbox",
+    region:"NA-WEST",
+    datePosted: new Date(),
+    deadline: new Date("4/5/2019"),
+    message:"Looking for a person to play duos. Must have K/D ratio over 2.0",
+    id: "12345",
+    replies: [
+      {
+        datePosted: new Date(),
+        message: "yeah sure",
+        author: "user3"
+      }
+    ]
   }]
   // AJAX request
   // $.ajax({
@@ -114,8 +131,7 @@ function generatePostElement(post) {
         <p class="posts-region">${post.region}</p>
         <p class="posts-deadline">${post.deadline}</p>
       </div>
-      <div>
-        
+      <div> 
         <p class="posts-message">${post.message}</p>
       </div>
       <ul class="replies-section">
@@ -136,20 +152,21 @@ function generatePostElementProtected(post) {
   return `
     <li class="js-post">
       <h2 class="posts-title">${post.postName}</h2>
-      <p class="post-username">${post.author}</p>
-      <p class="posts-platform">${post.platform}</p>
-      <p class="posts-platform">${post.region}</p>
-    
-      <div>
-        <hp class="posts-deadline">${post.deadline}</p>
-        <p class="posts-message">${post.message}</p>
-      </div>
-      <ul class="replies-section">
-        ${listOfReplies.join('')}
-      </ul>
-      <button type="button" class="js-view-btn">View</button>
-      <button type="button class="js-reply-btn">Reply</button>
-    </li>
+      <div class="post-info">
+        <p class="post-username">${post.author}</p>
+        <p class="posts-platform">${post.platform}</p>
+        <p class="posts-region">${post.region}</p>
+        <p class="posts-deadline">${post.deadline}</p>
+    </div>
+    <div>
+      <p class="posts-message">${post.message}</p>
+    </div>
+    <ul class="replies-section">
+      ${listOfReplies.join('')}
+    </ul>
+    <button type="button" class="js-view-btn">View</button>
+    <button type="button" class="js-reply-btn">Reply</button>
+</li>
 `
 }
 
@@ -197,13 +214,11 @@ function displayRegisterPage() {
         <label for="password-register">Password:</label>
         <input type="password" name="password-register" class="password-register" required>
         <label for="password-confirm">Confirm Password:</label>
-        <input type="password" name="password-confirm" class="password-confirm" required>
-        
+        <input type="password" name="password-confirm" class="password-confirm" required>       
           <legend>Select one platform</legend>
           <input type="radio" name="platform" id="pc" value="pc" checked><label for="pc">PC</label>
           <input type="radio" name="platform" id="xbox" value="xbox"<label for="xbox">Xbox</label>
           <input type="radio" name="platform" id="psn" value="psn"><label for="psn">Playstation</label>
-        
         <button type="submit">Register</button>
       </form>
   `)

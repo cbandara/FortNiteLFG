@@ -4,11 +4,15 @@ html {
   background: -webkit-linear-gradient(to bottom, #3c1053, #7c3a62);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to bottom, #3c1053, #7c3a62); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   color: white;
+  background-repeat: no-repeat;
   height: 100%;
+  margin: 0;
+  background-attachment: fixed;
 }
 body {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
+  
 }
 
 h1 {
@@ -82,10 +86,14 @@ ul {
 .js-post {
   padding-left: 30px;
   padding-bottom: 30px;
-  border: 2px solid rgb(40, 11, 56, 0.4);
+  padding-top: 30px;
+  background: rgb(40, 11, 56, 0.4);
   border-radius: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 700px;
 }
 
 .filter-legend {
@@ -93,5 +101,17 @@ ul {
 }
 
 .post-info>* {
-  display:inline;
+  display:inline-block;
+
+}
+
+.banner {
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.banner-img {
+  margin-left: auto;
+  margin-right: auto;
 }

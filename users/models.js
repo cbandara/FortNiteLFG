@@ -20,9 +20,21 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-// const PostSchema = new mongoose.Schema({
+const commentSchema = new mongoose.Schema({
+  datePosted: {type: Date, default: Date.now},
+  message: {type: String, required: true},
+  username: {type: String, ref: 'User', required: true}
+})
 
-// })
+const PostSchema = new mongoose.Schema({
+  postName: {type: String, required: true},
+  author: {type: String, ref: 'User', required: true},
+  platform: {type: String, required: true},
+  region: {type: String, required: true},
+  deadline: {type: Date, default: Date.now},
+  message: {type: String, required: true},
+  comments: [commentSchema]
+})
 
 UserSchema.methods.serialize = function() {
   return {
@@ -39,4 +51,6 @@ UserSchema.statics.hashPassword = function(password) {
 }
 
 const User = mongoose.model('User', UserSchema);
-module.exports = {User};
+const Post = mongoose.model('Post', PostSchema);
+const Comment = mongoose.model('Comment', commentSchema)
+module.exports = {User, Post, Comment};

@@ -3,11 +3,35 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios')
 
-const {User} = require('./models');
+const {User, Post} = require('./models');
 
 const router = express.Router();
 
 const jsonParser = bodyParser.json();
+
+router.post('/new-post', jsonParser, (req, res) => {
+  console.log(req.user)
+  return res.json({
+    data: 'rosebud'
+  });
+  // Post.create({
+  //   postName: "Squads scrimmage",
+  //   author: "tfue",
+  //   platform:"Xbox",
+  //   region:"NA-WEST",
+  //   datePosted: new Date(),
+  //   deadline: new Date("4/5/2019"),
+  //   message:"Looking for a person to play duos. Must have K/D ratio over 2.0",
+  //   id: "12345",
+  //   replies: [
+  //     {
+  //       datePosted: new Date(),
+  //       message: "yeah sure",
+  //       author: "user3"
+  //     }
+  //   ]
+  // })
+})
 
 // Post to register a new user
 router.post('/', jsonParser, (req, res) => {

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const axios = require('axios')
 
 const {User, Post} = require('./models');
+const { FORTNITE_API_KEY} = require('../config');
 
 const router = express.Router();
 
@@ -123,7 +124,7 @@ router.post('/', jsonParser, (req, res) => {
 
   axios.get(`https://api.fortnitetracker.com/v1/profile/${platform}/${username}`, {
     headers: {
-      'TRN-Api-Key': process.env.FORTNITE_API_KEY
+      'TRN-Api-Key': FORTNITE_API_KEY
     }
   })
     .then(response => {

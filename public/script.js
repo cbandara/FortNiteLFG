@@ -278,6 +278,8 @@ function handleRegisterSubmit(event) {
   if (password===passwordConfirm) {
     registerRequest(username, password, platform)
     $('.alert-section').html(`<p></p>`)
+    // document.location.reload()
+    // loginRequest(username, password)
   }
   else {
     $('.alert-section').html(`<p>Passwords must match</p>`)

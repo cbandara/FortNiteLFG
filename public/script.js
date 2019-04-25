@@ -129,7 +129,7 @@ function generatePostElement(post) {
         <p class="post-username">${post.author}</p>
         <p class="posts-platform">${post.platform}</p>
         <p class="posts-region">${post.region}</p>
-        <p class="posts-deadline">${post.deadline}</p>
+        <p class="posts-deadline">${post.deadline.toDateString()}</p>
       </div>
       <div> 
         <p class="posts-message">${post.message}</p>
@@ -227,7 +227,7 @@ function displayRegisterPage() {
 
 function loginRequest(username, password) {
   $.ajax({
-    url: "http://localhost:8080/api/auth/login",
+    url: "/api/auth/login",
     type: 'POST',
     data: JSON.stringify({username, password}),
     contentType: "application/json",
@@ -256,7 +256,7 @@ function handleLoginSubmit(event) {
 
 function registerRequest(username,password, platform) {
   $.ajax({
-    url: "http://localhost:8080/api/users",
+    url: "/api/users",
     type: 'POST',
     data: JSON.stringify({username,password, platform}),
     contentType: "application/json",

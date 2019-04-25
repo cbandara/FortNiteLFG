@@ -108,26 +108,9 @@ ul {
 }
 
 .banner {
-  
-  display: inline-block;
-  width: auto;
-  vertical-align: middle;
-  margin-left: auto;
-  margin-right: auto;
+  text-align: center;
 }
 
 .banner-img {
-  margin-left: auto;
-  margin-right: auto;
 }
 
-@media only screen and (max-width: 1000px) {
-  .banner {
-    width: 30%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .js-post {
-    width: 60%;
-  }
-}

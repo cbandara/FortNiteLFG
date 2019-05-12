@@ -1,8 +1,15 @@
-
 html {
-  background: #ad5389;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to bottom, #3c1053, #7c3a62);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #3c1053, #7c3a62); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #ad5389; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to bottom,
+    #3c1053,
+    #7c3a62
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to bottom,
+    #3c1053,
+    #7c3a62
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   color: white;
   background-repeat: no-repeat;
   height: 100%;
@@ -10,21 +17,21 @@ html {
   background-attachment: fixed;
 }
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 16px;
-  
 }
 
 h1 {
   text-align: center;
-  font-family: 'Kaushan Script', cursive;
+  font-family: "Kaushan Script", cursive;
 }
 
 h2 {
   text-decoration: underline;
 }
 
-.js-header-section, .js-controls-section {
+.js-header-section,
+.js-controls-section {
   text-align: center;
   padding-bottom: 20px;
 }
@@ -35,10 +42,10 @@ h2 {
   width: 80%;
   max-width: 1000px; */
   padding-bottom: 100px;
-  
 }
 
-button, .platform-submit {
+button,
+.platform-submit {
   background-color: transparent;
   color: white;
   font-size: 16px;
@@ -49,7 +56,8 @@ button, .platform-submit {
   margin: 10 px;
 }
 
-button:hover, .platform-submit:hover {
+button:hover,
+.platform-submit:hover {
   background-color: white;
   color: #3c1053;
   font-size: 16px;
@@ -60,7 +68,7 @@ button:hover, .platform-submit:hover {
   margin: 10 px;
 }
 
-.js-header-section>* {
+.js-header-section > * {
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -73,7 +81,7 @@ form {
   text-align: center;
 }
 
-form>* {
+form > * {
   margin-bottom: 10px;
   margin-top: 10px;
 }
@@ -102,15 +110,15 @@ ul {
   margin-bottom: 10px;
 }
 
-.post-info>* {
-  display:inline-block;
-
+.post-info > * {
+  display: inline-block;
 }
 
 .banner {
   text-align: center;
 }
 
-.banner-img {
+.footer {
+  text-align: center;
+  margin: auto;
 }
-

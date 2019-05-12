@@ -41,7 +41,10 @@ router.post("/", jsonParser, jwtAuth, (req, res) => {
 
 router.get("/", (req, res) => {
   Post.find()
-    .then(posts => res.status(200).json(posts.map(post => post.serialize())))
+    .then(posts => {
+      console.log(posts);
+      res.status(200).json(posts.map(post => post.serialize()));
+    })
     .catch(err => {
       console.error(err);
       res.status(500).send("Error while getting posts");

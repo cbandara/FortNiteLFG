@@ -30,13 +30,13 @@ h2 {
   text-decoration: underline;
 }
 
-.js-header-section,
-.js-controls-section {
+.header-section,
+.controls-section {
   text-align: center;
   padding-bottom: 20px;
 }
 
-.js-content-section {
+.content-section {
   /* margin-left: auto;
   margin-right: auto;
   width: 80%;
@@ -91,7 +91,7 @@ ul {
   padding-inline-start: 0px;
 }
 
-.js-post {
+.post {
   padding-left: 30px;
   padding-right: 30px;
   padding-bottom: 30px;
@@ -118,7 +118,19 @@ ul {
   text-align: center;
 }
 
-.footer {
+footer {
   text-align: center;
-  margin: auto;
+  margin-bottom: 50px;
+}
+
+a:link,
+a:visited {
+  color: white;
+  text-decoration: underline;
+  cursor: auto;
+}
+
+a:link:hover,
+a:visited:hover {
+  color: wheat;
 }

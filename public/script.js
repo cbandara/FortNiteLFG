@@ -19,6 +19,7 @@
 
 function displayHeaderButtons() {
   $(`.js-header-section`).html(`
+  <button type="button" class="js-back-btn back-btn">Back</button>
     <button type="button" class="js-create-post-btn">Create Post</button>
     <button type="button" class="js-logout-btn">Logout</button>
   `);
@@ -48,7 +49,7 @@ function getPostsRequest(success) {
     url: "/api/posts/",
     type: "GET",
     error: function(err) {
-      $(".alert-section").html(`<p>${err.responseText}</p>`);
+      $(".js-alert-section").html(`<p>${err.responseText}</p>`);
     },
     success: function(data) {
       success(data);
@@ -67,7 +68,7 @@ function generatePostElement(post) {
   `
   );
   return `
-    <li class="js-post">
+    <li class="js-post post">
       <h2 class="posts-title">${post.postName}</h2>
       <div class="post-info">
         <p class="post-username">${post.user}</p>
@@ -88,7 +89,6 @@ function generatePostElement(post) {
 // Consider using a ternary operator to combine the protected function
 
 function generatePostElementProtected(post) {
-  console.log(post);
   const listOfReplies = post.comments.map(
     reply => `
     <li>
@@ -99,7 +99,7 @@ function generatePostElementProtected(post) {
   `
   );
   return `
-    <li class="js-post">
+    <li class="js-post post ">
       <h2 class="posts-title">${post.postName}</h2>
       <div class="post-info">
         <p class="post-username">${post.user}</p>
@@ -135,7 +135,7 @@ function displayPostsProtected(posts) {
       ${listOfPosts.join("")}
     </ul>
   `);
-  $(`.alert-section`).html(``);
+  $(`.js-alert-section`).html(``);
 }
 
 function displayLoginPage() {
@@ -203,7 +203,7 @@ function loginRequest(username, password) {
     data: JSON.stringify({ username, password }),
     contentType: "application/json",
     error: function(err) {
-      $(".alert-section").html(`<p>${err.responseText}</p>`);
+      $(".js-alert-section").html(`<p>${err.responseText}</p>`);
     },
     success: function(data) {
       localStorage.setItem("token", data.authToken);
@@ -232,7 +232,7 @@ function registerRequest(username, password, platform) {
     data: JSON.stringify({ username, password, platform }),
     contentType: "application/json",
     error: function(err) {
-      $(".alert-section").html(`<p>${err.responseText}</p>`);
+      $(".js-alert-section").html(`<p>${err.responseText}</p>`);
     },
     success: function(data) {
       document.location.reload();
@@ -250,7 +250,7 @@ function postPostRequest(postName, platform, deadline) {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     },
     error: function(err) {
-      $(".alert-section").html(`<p>${err.responseText}</p>`);
+      $(".js-alert-section").html(`<p>${err.responseText}</p>`);
     },
     success: function(data) {
       displayHeaderButtons();
@@ -276,11 +276,11 @@ function handleRegisterSubmit(event) {
     .val();
   if (password === passwordConfirm) {
     registerRequest(username, password, platform);
-    $(".alert-section").html(`<p></p>`);
+    $(".js-alert-section").html(`<p></p>`);
     // document.location.reload()
     // loginRequest(username, password)
   } else {
-    $(".alert-section").html(`<p>Passwords must match</p>`);
+    $(".js-alert-section").html(`<p>Passwords must match</p>`);
   }
 }
 

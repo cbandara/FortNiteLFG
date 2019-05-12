@@ -23,7 +23,7 @@ router.post("/", jsonParser, jwtAuth, (req, res) => {
   // Dont have to check the platform and region because mongoose already does
   // Check the message because it could be empty string
 
-  const requiredFields = ["postName", "user", "platform", "region"];
+  // const requiredFields = ["postName", "user", "platform", "region", "dead"];
 
   Post.create({
     postName: req.body.postName,

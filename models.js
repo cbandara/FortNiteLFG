@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
   region: {
     type: String,
     required: true,
-    enum: ["NA-EAST", "NA-WEST", "EU"]
+    enum: ["na-east", "na-west", "eu"]
   }
 });
 

@@ -19,7 +19,7 @@
 
 function displayHeaderButtons() {
   $(`.js-header-section`).html(`
-  <button type="button" class="js-back-btn back-btn">Back</button>
+    <button type="button" class="js-back-btn back-btn">Back</button>
     <button type="button" class="js-create-post-btn">Create Post</button>
     <button type="button" class="js-logout-btn">Logout</button>
   `);
@@ -39,6 +39,7 @@ function displayFilterControls() {
 
 function displayLoginRegisterButton() {
   $(`.js-header-section`).html(`
+    <button type="button" class="js-back-btn back-btn">Back</button>
     <button type="button" class="js-login-btn">Login</button>
     <button type="button" class="js-register-btn">Register</button>
   `);
@@ -166,6 +167,10 @@ function displayRegisterPage() {
           <input type="radio" name="platform" id="pc" value="pc" checked><label for="pc">PC</label>
           <input type="radio" name="platform" id="xb1" value="xb1"<label for="xb1">Xbox</label>
           <input type="radio" name="platform" id="psn" value="psn"><label for="psn">Playstation</label>
+          <legend>Select one region</legend>
+          <input type="radio" name="region" id="na-west" value="na-west" checked><label for="na-west">North America (West)</label>
+          <input type="radio" name="region" id="na-east" value="na-east"<label for="na-east">North America (EAST)</label>
+          <input type="radio" name="region" id="eu" value="eu"><label for="eu">Europe</label>
         <button type="submit">Register</button>
       </form>
   `);
@@ -225,11 +230,11 @@ function handleLoginSubmit(event) {
   loginRequest(username, password);
 }
 
-function registerRequest(username, password, platform) {
+function registerRequest(username, password, platform, region) {
   $.ajax({
     url: "/api/users",
     type: "POST",
-    data: JSON.stringify({ username, password, platform }),
+    data: JSON.stringify({ username, password, platform, region }),
     contentType: "application/json",
     error: function(err) {
       $(".js-alert-section").html(`<p>${err.responseText}</p>`);
@@ -274,8 +279,11 @@ function handleRegisterSubmit(event) {
   const platform = $(event.currentTarget)
     .find("[name=platform]:checked")
     .val();
+  const region = $(event.currentTarget)
+    .find("[name=region]:checked")
+    .val();
   if (password === passwordConfirm) {
-    registerRequest(username, password, platform);
+    registerRequest(username, password, platform, region);
     $(".js-alert-section").html(`<p></p>`);
     // document.location.reload()
     // loginRequest(username, password)
@@ -295,9 +303,7 @@ function handlePostSubmit(event) {
   const deadline = $(event.currentTarget)
     .find(".create-deadline")
     .val();
-  console.log(deadline);
-  console.log(event);
-  console.log(postName);
+
   postPostRequest(postName, platform, deadline);
 }
 

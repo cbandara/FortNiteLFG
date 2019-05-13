@@ -23,13 +23,13 @@ router.post("/", jsonParser, jwtAuth, (req, res) => {
   // Dont have to check the platform and region because mongoose already does
   // Check the message because it could be empty string
 
-  // const requiredFields = ["postName", "user", "platform", "region", "dead"];
+  // const requiredFields = ["postName", "user", "platform", "region", "deadline"];
 
   Post.create({
     postName: req.body.postName,
     user: req.user.id,
     platform: req.body.platform,
-    region: "NA-WEST", // Add Region on front end
+    region: req.body.region,
     deadline: new Date(req.body.deadline),
     message:
       "Looking 332rw for a person to play duos. Must have K/D ratio over 2.0"
@@ -42,10 +42,11 @@ router.post("/", jsonParser, jwtAuth, (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  Post.find()
+  Post.find({})
     .then(posts => {
       console.log(posts);
-      res.status(200).json(posts.map(post => post.serialize()));
+      // res.status(200).json(posts.map(post => post.serialize()));
+      res.status(200).json(posts);
     })
     .catch(err => {
       console.error(err);

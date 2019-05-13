@@ -2,7 +2,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const axios = require("axios");
-// const passport = require("passport");
 
 const { User } = require("../models");
 const { FORTNITE_API_KEY } = require("../config");
@@ -13,7 +12,7 @@ const jsonParser = bodyParser.json();
 
 // Post to register a new user
 router.post("/", jsonParser, (req, res) => {
-  const requiredFields = ["username", "password", "platform", "region"];
+  const requiredFields = ["username", "password", "platform"];
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
@@ -25,7 +24,7 @@ router.post("/", jsonParser, (req, res) => {
     });
   }
 
-  const stringFields = ["username", "password", "platform", "region"];
+  const stringFields = ["username", "password", "platform"];
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== "string"
   );
@@ -46,7 +45,7 @@ router.post("/", jsonParser, (req, res) => {
   // trimming them and expecting the user to understand.
   // We'll silently trim the other fields, because they aren't credentials used
   // to log in, so it's less of a problem.
-  const explicityTrimmedFields = ["username", "password", "platform", "region"];
+  const explicityTrimmedFields = ["username", "password", "platform"];
   const nonTrimmedField = explicityTrimmedFields.find(
     field => req.body[field].trim() !== req.body[field]
   );
@@ -93,7 +92,7 @@ router.post("/", jsonParser, (req, res) => {
     });
   }
 
-  let { username, password, platform, region } = req.body;
+  let { username, password, platform } = req.body;
   // Username and password come in pre-trimmed, otherwise we throw an error
   // before this
 
@@ -126,8 +125,7 @@ router.post("/", jsonParser, (req, res) => {
             return User.create({
               username,
               password: hash,
-              platform,
-              region
+              platform
             });
           })
           .then(user => {
@@ -146,15 +144,5 @@ router.post("/", jsonParser, (req, res) => {
       }
     });
 });
-
-// Never expose all your users like below in a prod application
-// we're just doing this so we have a quick way to see
-// if we're creating users. keep in mind, you can also
-// verify this in the Mongo shell.
-// router.get('/', (req, res) => {
-//   return User.find()
-//     .then(users => res.json(users.map(user => user.serialize())))
-//     .catch(err => res.status(500).json({message: 'Internal server error'}));
-// });
 
 module.exports = { router };

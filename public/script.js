@@ -20,6 +20,7 @@
 function displayHeaderButtons() {
   $(`.js-header-section`).html(`
     <button type="button" class="js-back-btn back-btn">Back</button>
+    <button type="button" class="js-my-posts-btn my-posts-btn">My Posts</button>
     <button type="button" class="js-create-post-btn">Create Post</button>
     <button type="button" class="js-logout-btn">Logout</button>
   `);
@@ -72,7 +73,7 @@ function generatePostElement(post) {
     <li class="js-post post">
       <h2 class="posts-title">${post.postName}</h2>
       <div class="post-info">
-        <p class="post-username">${post.user}</p>
+        <p class="post-username">${post.user.username}</p>
         <p class="posts-platform">${post.platform}</p>
         <p class="posts-region">${post.region}</p>
         <p class="posts-deadline">${post.deadline.toLocaleString()}</p>
@@ -93,7 +94,7 @@ function generatePostElementProtected(post) {
   const listOfReplies = post.comments.map(
     reply => `
     <li>
-      <p class="reply-author">${reply.user}</p>
+      <p class="reply-author">${reply.user.username}</p>
       <p class="reply-message">${reply.message}</p>
       <p class="reply-date">${reply.datePosted}</p>
     </li>
@@ -103,7 +104,7 @@ function generatePostElementProtected(post) {
     <li class="js-post post ">
       <h2 class="posts-title">${post.postName}</h2>
       <div class="post-info">
-        <p class="post-username">${post.user}</p>
+        <p class="post-username">${post.user.username}</p>
         <p class="posts-platform">${post.platform}</p>
         <p class="posts-region">${post.region}</p>
         <p class="posts-deadline">${post.deadline.toLocaleString()}</p>
@@ -130,6 +131,7 @@ function displayPosts(posts) {
 }
 
 function displayPostsProtected(posts) {
+  console.log(posts);
   const listOfPosts = posts.map(post => generatePostElementProtected(post));
   $(`.js-content-section`).html(`
     <ul class="posts-list">
@@ -163,14 +165,10 @@ function displayRegisterPage() {
         <input type="password" name="password-register" class="password-register" required>
         <label for="password-confirm">Confirm Password:</label>
         <input type="password" name="password-confirm" class="password-confirm" required>       
-          <legend>Select one platform</legend>
-          <input type="radio" name="platform" id="pc" value="pc" checked><label for="pc">PC</label>
-          <input type="radio" name="platform" id="xb1" value="xb1"<label for="xb1">Xbox</label>
-          <input type="radio" name="platform" id="psn" value="psn"><label for="psn">Playstation</label>
-          <legend>Select one region</legend>
-          <input type="radio" name="region" id="na-west" value="na-west" checked><label for="na-west">North America (West)</label>
-          <input type="radio" name="region" id="na-east" value="na-east"<label for="na-east">North America (EAST)</label>
-          <input type="radio" name="region" id="eu" value="eu"><label for="eu">Europe</label>
+        <legend>Select one platform</legend>
+        <input type="radio" name="platform" id="pc" value="pc" checked><label for="pc">PC</label>
+        <input type="radio" name="platform" id="xb1" value="xb1"<label for="xb1">Xbox</label>
+        <input type="radio" name="platform" id="psn" value="psn"><label for="psn">Playstation</label>
         <button type="submit">Register</button>
       </form>
   `);
@@ -191,6 +189,11 @@ function displayCreatePostPage() {
       <input type="radio" class="create-platform" name="create-platform" id="pc" value="pc" checked><label for="pc">PC</label>
       <input type="radio" class="create-platform" name="create-platform" id="xb1" value="xb1"<label for="xb1">Xbox</label>
       <input type="radio" class="create-platform" name="create-platform" id="psn" value="psn"><label for="psn">Playstation</label>
+      <br>
+      <legend>Select one region</legend>
+      <input type="radio" name="region" class="region" id="na-west" value="na-west" checked><label for="na-west">North America (West)</label>
+      <input type="radio" name="region" class="region" id="na-east" value="na-east"<label for="na-east">North America (EAST)</label>
+      <input type="radio" name="region" class="region" id="eu" value="eu"><label for="eu">Europe</label>
       <br>
       <label for="create-deadline">Deadline</label>
       <input type="datetime-local" id="create-deadline" class = "create-deadline"
@@ -230,11 +233,11 @@ function handleLoginSubmit(event) {
   loginRequest(username, password);
 }
 
-function registerRequest(username, password, platform, region) {
+function registerRequest(username, password, platform) {
   $.ajax({
     url: "/api/users",
     type: "POST",
-    data: JSON.stringify({ username, password, platform, region }),
+    data: JSON.stringify({ username, password, platform }),
     contentType: "application/json",
     error: function(err) {
       $(".js-alert-section").html(`<p>${err.responseText}</p>`);
@@ -245,16 +248,23 @@ function registerRequest(username, password, platform, region) {
   });
 }
 
-function postPostRequest(postName, platform, deadline) {
+function postPostRequest(postName, platform, region, deadline) {
   $.ajax({
     url: "/api/posts/",
     type: "POST",
-    data: JSON.stringify({ postName, platform, deadline }),
+    data: JSON.stringify({ postName, platform, region, deadline }),
     contentType: "application/json",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     },
     error: function(err) {
+      console.log(err);
+      if (err.status === 401) {
+        localStorage.clear();
+        $(".js-alert-section").html(`<p>Your Session has expired</p>`);
+        displayLoginPage();
+        return;
+      }
       $(".js-alert-section").html(`<p>${err.responseText}</p>`);
     },
     success: function(data) {
@@ -279,11 +289,9 @@ function handleRegisterSubmit(event) {
   const platform = $(event.currentTarget)
     .find("[name=platform]:checked")
     .val();
-  const region = $(event.currentTarget)
-    .find("[name=region]:checked")
-    .val();
+
   if (password === passwordConfirm) {
-    registerRequest(username, password, platform, region);
+    registerRequest(username, password, platform);
     $(".js-alert-section").html(`<p></p>`);
     // document.location.reload()
     // loginRequest(username, password)
@@ -303,8 +311,10 @@ function handlePostSubmit(event) {
   const deadline = $(event.currentTarget)
     .find(".create-deadline")
     .val();
-
-  postPostRequest(postName, platform, deadline);
+  const region = $(event.currentTarget)
+    .find(".region")
+    .val();
+  postPostRequest(postName, platform, region, deadline);
 }
 
 function handleLogOut() {

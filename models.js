@@ -18,12 +18,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     enum: ["pc", "xb1", "psn"]
-  },
-  region: {
-    type: String,
-    required: true,
-    enum: ["na-east", "na-west", "eu"]
   }
+  // region: {
+  //   type: String,
+  //   required: true,
+  //   enum: ["na-east", "na-west", "eu"]
+  // }
 });
 
 const commentSchema = new mongoose.Schema({
@@ -43,12 +43,17 @@ const PostSchema = new mongoose.Schema({
   region: {
     type: String,
     required: true,
-    enum: ["NA-EAST", "NA-WEST", "EU"]
+    enum: ["na-east", "na-west", "eu"]
   },
   datePosted: { type: Date, default: Date.now },
   deadline: { type: Date },
   message: { type: String, required: true },
   comments: [commentSchema]
+});
+
+PostSchema.pre("find", function(next) {
+  this.populate("user");
+  next();
 });
 
 UserSchema.methods.serialize = function() {
@@ -61,8 +66,7 @@ UserSchema.methods.serialize = function() {
 PostSchema.methods.serialize = function() {
   let post = {
     ...this._doc,
-    id: this._id,
-    username: this.username
+    id: this._id
   };
   delete post.__v;
   delete post._id;

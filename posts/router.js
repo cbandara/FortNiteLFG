@@ -14,6 +14,8 @@ const jwtAuth = passport.authenticate("jwt", { session: false });
 router.post("/", jsonParser, jwtAuth, (req, res) => {
   console.log(req.user);
   console.log(req.body);
+  console.log(req.body.deadline);
+  console.log(new Date(req.body.deadline));
 
   // Get request body
   // Validate postName is not empty
@@ -31,8 +33,7 @@ router.post("/", jsonParser, jwtAuth, (req, res) => {
     platform: req.body.platform,
     region: req.body.region,
     deadline: new Date(req.body.deadline),
-    message:
-      "Looking 332rw for a person to play duos. Must have K/D ratio over 2.0"
+    message: req.body.message
   })
     .then(post => res.status(201).json(post.serialize()))
     .catch(err => {
@@ -43,10 +44,9 @@ router.post("/", jsonParser, jwtAuth, (req, res) => {
 
 router.get("/", (req, res) => {
   Post.find({})
+    .populate("user")
     .then(posts => {
-      console.log(posts);
-      // res.status(200).json(posts.map(post => post.serialize()));
-      res.status(200).json(posts);
+      res.status(200).json(posts.map(post => post.serialize()));
     })
     .catch(err => {
       console.error(err);

@@ -51,10 +51,10 @@ const PostSchema = new mongoose.Schema({
   comments: [commentSchema]
 });
 
-PostSchema.pre("find", function(next) {
-  this.populate("user");
-  next();
-});
+// PostSchema.pre("find", function(next) {
+//   this.populate("user");
+//   next();
+// });
 
 UserSchema.methods.serialize = function() {
   return {
@@ -65,11 +65,20 @@ UserSchema.methods.serialize = function() {
 
 PostSchema.methods.serialize = function() {
   let post = {
-    ...this._doc,
-    id: this._id
+    // ...this._doc,
+    id: this._id,
+    comments: this.comments,
+    datePosted: this.datePosted,
+    deadline: this.deadline,
+    message: this.message,
+    platform: this.platform,
+    postName: this.postName,
+    region: this.region,
+    username: this.user.username
   };
-  delete post.__v;
-  delete post._id;
+  // delete post.user.__v;
+  // delete post.user._id;
+  // delete post.user.password;
   return post;
 };
 

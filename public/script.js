@@ -19,7 +19,7 @@
 
 function displayHeaderButtons() {
   $(`.js-header-section`).html(`
-    <button type="button" class="js-back-btn back-btn">Back</button>
+    <button type="button" class="js-home-btn home-btn">Home</button>
     <button type="button" class="js-my-posts-btn my-posts-btn">My Posts</button>
     <button type="button" class="js-create-post-btn">Create Post</button>
     <button type="button" class="js-logout-btn">Logout</button>
@@ -40,7 +40,7 @@ function displayFilterControls() {
 
 function displayLoginRegisterButton() {
   $(`.js-header-section`).html(`
-    <button type="button" class="js-back-btn back-btn">Back</button>
+    <button type="button" class="js-home-btn-logged-out home-btn">Home</button>
     <button type="button" class="js-login-btn">Login</button>
     <button type="button" class="js-register-btn">Register</button>
   `);
@@ -63,7 +63,7 @@ function generatePostElement(post) {
   const listOfReplies = post.comments.map(
     reply => `
     <li>
-      <p class="reply-author">${reply.user.username}</p>
+      <p class="reply-author">${reply.username}</p>
       <p class="reply-message">${reply.message}</p>
       <p class="reply-date">${reply.datePosted}</p>
     </li>
@@ -73,7 +73,7 @@ function generatePostElement(post) {
     <li class="js-post post">
       <h2 class="posts-title">${post.postName}</h2>
       <div class="post-info">
-        <p class="post-username">${post.user.username}</p>
+        <p class="post-username">${post.username}</p>
         <p class="posts-platform">${post.platform}</p>
         <p class="posts-region">${post.region}</p>
         <p class="posts-deadline">${post.deadline.toLocaleString()}</p>
@@ -88,13 +88,31 @@ function generatePostElement(post) {
 `;
 }
 
+function formatAMPM(date) {
+  console.log(date);
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let ampm = hours >= 12 ? "PM" : "AM";
+  let month = date.getMonth();
+  let day = date.getDate();
+  let year = date.getFullYear();
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  let strTime =
+    hours + ":" + minutes + " " + ampm + " " + month + "/" + day + "/" + year;
+  return strTime;
+}
+
 // Consider using a ternary operator to combine the protected function
 
 function generatePostElementProtected(post) {
+  const deadline = new Date(post.deadline);
+
   const listOfReplies = post.comments.map(
     reply => `
     <li>
-      <p class="reply-author">${reply.user.username}</p>
+      <p class="reply-author">${reply.username}</p>
       <p class="reply-message">${reply.message}</p>
       <p class="reply-date">${reply.datePosted}</p>
     </li>
@@ -104,10 +122,10 @@ function generatePostElementProtected(post) {
     <li class="js-post post ">
       <h2 class="posts-title">${post.postName}</h2>
       <div class="post-info">
-        <p class="post-username">${post.user.username}</p>
+        <p class="post-username">${post.username}</p>
         <p class="posts-platform">${post.platform}</p>
         <p class="posts-region">${post.region}</p>
-        <p class="posts-deadline">${post.deadline.toLocaleString()}</p>
+        <p class="posts-deadline">${formatAMPM(deadline)}</p>
     </div>
     <div>
       <p class="posts-message">${post.message}</p>
@@ -142,7 +160,7 @@ function displayPostsProtected(posts) {
 }
 
 function displayLoginPage() {
-  $(`.js-header-section`).html(``);
+  displayLoginRegisterButton();
   $(`.js-content-section`).html(`
     <form class="js-login-form">
       <label for="username-login">Username:</label>
@@ -157,6 +175,7 @@ function displayLoginPage() {
 }
 
 function displayRegisterPage() {
+  displayLoginRegisterButton();
   $(`.js-content-section`).html(` 
       <form class="js-register-form">
         <label for="username-register">Username:</label>
@@ -174,11 +193,28 @@ function displayRegisterPage() {
   `);
 }
 
+function displayHomePage() {
+  displayHeaderButtons();
+  displayFilterControls();
+  getPostsRequest(displayPostsProtected);
+}
+
+function displayHomePageLoggedOut() {
+  displayLoginRegisterButton();
+  getPostsRequest(displayPosts);
+  $(`.js-view-btn`).css("display", "none");
+  $(`.js-reply-btn`).css("display", "none");
+}
+
 function displayCreatePostPage() {
-  const todayDate = new Date().toJSON().slice(0, 19);
-  const dt = new Date();
-  dt.setMinutes(dt.getMinutes() + 30);
-  $(`.js-header-section`).html(``);
+  let todayDate = new Date();
+  console.log(todayDate);
+  const date1 = todayDate.toJSON().slice(0, 16);
+  console.log(date1);
+  todayDate.setMinutes(todayDate.getMinutes() + 30);
+  const date2 = todayDate.toJSON().slice(0, 16);
+  console.log(date2);
+  displayHeaderButtons();
   $(`.js-controls-section`).html(``);
   $(`.js-content-section`).html(`
     <form class="js-create-post-form">
@@ -197,8 +233,13 @@ function displayCreatePostPage() {
       <br>
       <label for="create-deadline">Deadline</label>
       <input type="datetime-local" id="create-deadline" class = "create-deadline"
-       name="create-deadline" value="${todayDate}"
-       min="${todayDate}" max="2025-06-14T00:00">
+       name="create-deadline" value="${date2}"
+       min="${date1}">
+       <br>
+      <label for="create-message">Message:</label>
+      <br>
+      <textarea rows="4" cols="50" name="create-message" class="create-message" form="js-create-post-form"></textarea>
+      <br>
       <button type="submit">Create</button>
     </form>
   `);
@@ -248,11 +289,11 @@ function registerRequest(username, password, platform) {
   });
 }
 
-function postPostRequest(postName, platform, region, deadline) {
+function postPostRequest(postName, platform, region, deadline, message) {
   $.ajax({
     url: "/api/posts/",
     type: "POST",
-    data: JSON.stringify({ postName, platform, region, deadline }),
+    data: JSON.stringify({ postName, platform, region, deadline, message }),
     contentType: "application/json",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -314,7 +355,10 @@ function handlePostSubmit(event) {
   const region = $(event.currentTarget)
     .find(".region")
     .val();
-  postPostRequest(postName, platform, region, deadline);
+  const message = $(event.currentTarget)
+    .find(".create-message")
+    .val();
+  postPostRequest(postName, platform, region, deadline, message);
 }
 
 function handleLogOut() {
@@ -344,6 +388,12 @@ $(function onLoad() {
     displayCreatePostPage
   );
   $(`.js-header-section`).on("click", ".js-login-btn", displayLoginPage);
+  $(`.js-header-section`).on("click", ".js-home-btn", displayHomePage);
+  $(`.js-header-section`).on(
+    "click",
+    ".js-home-btn-logged-out",
+    displayHomePageLoggedOut
+  );
   $(`.js-header-section`).on("click", ".js-register-btn", displayRegisterPage);
   $(`.js-content-section`).on("submit", ".js-login-form", handleLoginSubmit);
   $(`.js-content-section`).on(

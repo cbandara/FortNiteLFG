@@ -134,3 +134,7 @@ a:link:hover,
 a:visited:hover {
   color: wheat;
 }
+
+.alert-section {
+  text-align: center;
+}

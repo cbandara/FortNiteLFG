@@ -138,3 +138,13 @@ a:visited:hover {
 .alert-section {
   text-align: center;
 }
+
+.info-box {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background: rgb(40, 11, 56, 0.7);
+  border-radius: 10px;
+  margin-right: 5px;
+}

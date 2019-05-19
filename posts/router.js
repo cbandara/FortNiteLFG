@@ -35,7 +35,6 @@ router.post("/", jsonParser, jwtAuth, (req, res) => {
 });
 
 router.get("/my-posts", jwtAuth, (req, res) => {
-  const id = req.user.id;
   Post.find({ user: req.user.id })
     .populate("user")
     .then(posts => {
@@ -48,7 +47,7 @@ router.get("/my-posts", jwtAuth, (req, res) => {
 });
 
 router.delete("/my-posts/:id", jwtAuth, (req, res) => {
-  Post.remove(req.params.id);
+  Post.findOneAndDelete({ _id: req.params.id });
   console.log(`Deleted Post: ${req.params.id}`);
   res.status(204).end();
 });

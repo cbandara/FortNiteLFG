@@ -75,6 +75,21 @@ function getMyPostsRequest(success) {
   });
 }
 
+function formatAMPM(date) {
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let ampm = hours >= 12 ? "PM" : "AM";
+  let month = date.getMonth();
+  let day = date.getDate();
+  let year = date.getFullYear();
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  let strTime =
+    hours + ":" + minutes + " " + ampm + " " + month + "/" + day + "/" + year;
+  return strTime;
+}
+
 function generatePostElement(post) {
   const listOfReplies = post.comments.map(
     reply => `
@@ -104,21 +119,6 @@ function generatePostElement(post) {
 `;
 }
 
-function formatAMPM(date) {
-  let hours = date.getHours();
-  let minutes = date.getMinutes();
-  let ampm = hours >= 12 ? "PM" : "AM";
-  let month = date.getMonth();
-  let day = date.getDate();
-  let year = date.getFullYear();
-  hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
-  minutes = minutes < 10 ? "0" + minutes : minutes;
-  let strTime =
-    hours + ":" + minutes + " " + ampm + " " + month + "/" + day + "/" + year;
-  return strTime;
-}
-
 // Consider using a ternary operator to combine the protected function
 
 function generatePostElementProtected(post) {
@@ -137,10 +137,10 @@ function generatePostElementProtected(post) {
     <li class="js-post post ">
       <h2 class="posts-title">${post.postName}</h2>
       <div class="post-info">
-        <p class="post-username">${post.username}</p>
-        <p class="posts-platform">${post.platform}</p>
-        <p class="posts-region">${post.region}</p>
-        <p class="posts-deadline">${formatAMPM(deadline)}</p>
+        <p class="post-username info-box">${post.username}</p>
+        <p class="post-platform info-box">${post.platform}</p>
+        <p class="post-region info-box">${post.region}</p>
+        <p class="post-deadline info-box">${formatAMPM(deadline)}</p>
     </div>
     <div>
       <p class="posts-message">${post.message}</p>
@@ -150,6 +150,7 @@ function generatePostElementProtected(post) {
     </ul>
     <button type="button" class="js-view-btn">View</button>
     <button type="button" class="js-reply-btn">Reply</button>
+    <button type="button" class="js-delete-btn">Delete</button>
 </li>
 `;
 }
@@ -381,6 +382,24 @@ function displayMyPosts() {
   getMyPostsRequest(displayPostsProtected);
 }
 
+function deleteMyPost(success) {
+  $.ajax({
+    url: "/api/posts/my-posts/:id",
+    type: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    },
+    error: function(err) {
+      $(".js-alert-section").html(`<p>${err.responseText}</p>`);
+    },
+    success: function(data) {
+      if (success) {
+        window.location.reload();
+      }
+    }
+  });
+}
+
 $(function onLoad() {
   let loggedIn = localStorage.getItem("token");
 
@@ -411,6 +430,7 @@ $(function onLoad() {
     displayHomePageLoggedOut
   );
   $(`.js-header-section`).on("click", ".js-register-btn", displayRegisterPage);
+  $(`.js-content-section`).on("click", ".js-delete-btn", deleteMyPost);
   $(`.js-content-section`).on("submit", ".js-login-form", handleLoginSubmit);
   $(`.js-content-section`).on(
     "submit",

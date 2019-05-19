@@ -59,6 +59,22 @@ function getPostsRequest(success) {
   });
 }
 
+function getMyPostsRequest(success) {
+  $.ajax({
+    url: "/api/posts/my-posts/",
+    type: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    },
+    error: function(err) {
+      $(".js-alert-section").html(`<p>${err.responseText}</p>`);
+    },
+    success: function(data) {
+      success(data);
+    }
+  });
+}
+
 function generatePostElement(post) {
   const listOfReplies = post.comments.map(
     reply => `
@@ -89,7 +105,6 @@ function generatePostElement(post) {
 }
 
 function formatAMPM(date) {
-  console.log(date);
   let hours = date.getHours();
   let minutes = date.getMinutes();
   let ampm = hours >= 12 ? "PM" : "AM";
@@ -149,7 +164,6 @@ function displayPosts(posts) {
 }
 
 function displayPostsProtected(posts) {
-  console.log(posts);
   const listOfPosts = posts.map(post => generatePostElementProtected(post));
   $(`.js-content-section`).html(`
     <ul class="posts-list">
@@ -208,12 +222,9 @@ function displayHomePageLoggedOut() {
 
 function displayCreatePostPage() {
   let todayDate = new Date();
-  console.log(todayDate);
   const date1 = todayDate.toJSON().slice(0, 16);
-  console.log(date1);
   todayDate.setMinutes(todayDate.getMinutes() + 30);
   const date2 = todayDate.toJSON().slice(0, 16);
-  console.log(date2);
   displayHeaderButtons();
   $(`.js-controls-section`).html(``);
   $(`.js-content-section`).html(`
@@ -366,6 +377,10 @@ function handleLogOut() {
   document.location.reload();
 }
 
+function displayMyPosts() {
+  getMyPostsRequest(displayPostsProtected);
+}
+
 $(function onLoad() {
   let loggedIn = localStorage.getItem("token");
 
@@ -388,6 +403,7 @@ $(function onLoad() {
     displayCreatePostPage
   );
   $(`.js-header-section`).on("click", ".js-login-btn", displayLoginPage);
+  $(`.js-header-section`).on("click", ".js-my-posts-btn", displayMyPosts);
   $(`.js-header-section`).on("click", ".js-home-btn", displayHomePage);
   $(`.js-header-section`).on(
     "click",

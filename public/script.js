@@ -386,6 +386,7 @@ function deleteMyPost(success) {
   $.ajax({
     url: "/api/posts/my-posts/:id",
     type: "DELETE",
+    dataType: "json",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     },
@@ -393,9 +394,7 @@ function deleteMyPost(success) {
       $(".js-alert-section").html(`<p>${err.responseText}</p>`);
     },
     success: function(data) {
-      if (success) {
-        window.location.reload();
-      }
+      success(data);
     }
   });
 }

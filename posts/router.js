@@ -47,9 +47,8 @@ router.get("/my-posts", jwtAuth, (req, res) => {
 });
 
 router.delete("/my-posts/:id", jwtAuth, (req, res) => {
-  Post.findOneAndDelete({ _id: req.params.id });
+  Post.findOneAndDelete({ _id: req.params.id }).then(res.status(204).end());
   console.log(`Deleted Post: ${req.params.id}`);
-  res.status(204).end();
 });
 
 router.get("/", (req, res) => {

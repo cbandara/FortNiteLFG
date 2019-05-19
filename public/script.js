@@ -103,11 +103,11 @@ function generatePostElement(post) {
   return `
     <li class="js-post post">
       <h2 class="posts-title">${post.postName}</h2>
+      <p class="post-username">User: ${post.username}</p>
       <div class="post-info">
-        <p class="post-username">${post.username}</p>
-        <p class="posts-platform">${post.platform}</p>
-        <p class="posts-region">${post.region}</p>
-        <p class="posts-deadline">${post.deadline.toLocaleString()}</p>
+        <p class="post-platform">${post.platform.toUpperCase()}</}</p>
+        <p class="post-region">${post.region.toUpperCase()}</p>
+        <p class="post-deadline">${post.deadline.toLocaleString()}</p>
       </div>
       <div> 
         <p class="posts-message">${post.message}</p>
@@ -136,10 +136,11 @@ function generatePostElementProtected(post) {
   return `
     <li class="js-post post ">
       <h2 class="posts-title">${post.postName}</h2>
+      
       <div class="post-info">
-        <p class="post-username info-box">${post.username}</p>
-        <p class="post-platform info-box">${post.platform}</p>
-        <p class="post-region info-box">${post.region}</p>
+      <p class="post-username info-box">User: ${post.username}</p>
+        <p class="post-platform info-box">${post.platform.toUpperCase()}</p>
+        <p class="post-region info-box">${post.region.toUpperCase()}</p>
         <p class="post-deadline info-box">${formatAMPM(deadline)}</p>
     </div>
     <div>
@@ -178,6 +179,7 @@ function displayLoginPage() {
   displayLoginRegisterButton();
   $(`.js-content-section`).html(`
     <form class="js-login-form">
+      <p>Username is case sensitive</p>
       <label for="username-login">Username:</label>
       <input type="text" name="username-login" class="username-login">
       <br>
@@ -193,6 +195,7 @@ function displayRegisterPage() {
   displayLoginRegisterButton();
   $(`.js-content-section`).html(` 
       <form class="js-register-form">
+        <p>Username is case sensitive</p>
         <label for="username-register">Username:</label>
         <input type="text" name="username-register" class="username-register" required>
         <label for="password-register">Password:</label>
@@ -383,8 +386,10 @@ function displayMyPosts() {
 }
 
 function deleteMyPost(success) {
+  const id = post.id;
+  console.log(id);
   $.ajax({
-    url: "/api/posts/my-posts/:id",
+    url: `/api/posts/my-posts/5cd9b54adb8a30255bb2832d`,
     type: "DELETE",
     dataType: "json",
     headers: {
@@ -394,7 +399,7 @@ function deleteMyPost(success) {
       $(".js-alert-section").html(`<p>${err.responseText}</p>`);
     },
     success: function(data) {
-      success(data);
+      displayMyPosts();
     }
   });
 }

@@ -130,7 +130,6 @@ router.post("/", jsonParser, (req, res) => {
           })
           .then(user => {
             return res.status(201).json(user.serialize());
-            // NEEDS REDIRECT TO LOGIN PAGE
           })
           .catch(err => {
             // Forward validation errors on to the client, otherwise give a 500

@@ -69,7 +69,7 @@ button:hover,
   margin: 10 px;
 }
 
-.js-header-section > * {
+.header-section > * {
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -148,4 +148,45 @@ a:visited:hover {
   background: rgb(40, 11, 56, 0.7);
   border-radius: 10px;
   margin-right: 5px;
+}
+
+.register-form,
+.create-post-form {
+  width: 80%;
+  background: rgb(40, 11, 56, 0.7);
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
+  padding-top: 30px;
+  border-radius: 10px;
+  max-width: 600px;
+  -webkit-box-shadow: 7px 9px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 7px 9px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 7px 9px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+input {
+  background: rgb(40, 11, 56, 0.93);
+  border: none;
+  color: white;
+  font-size: 16px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+textarea {
+  background: rgb(40, 11, 56, 0.93);
+  border: none;
+  color: white;
+  font-size: 16px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+radio {
+  background: black;
 }

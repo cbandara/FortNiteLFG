@@ -80,9 +80,14 @@ router.get("/", (req, res) => {
 
 // Get one post by ID
 router.get("/:id", (req, res) => {
-  Post.findById({ _id: req.params.id }).then(post => {
-    res.status(200).json(post.serialize());
-  });
+  Post.findById({ _id: req.params.id })
+    .then(post => {
+      res.status(200).json(post.serialize());
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send("Error while getting post");
+    });
 });
 
 module.exports = { router };

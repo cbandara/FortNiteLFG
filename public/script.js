@@ -136,7 +136,7 @@ function generatePostElementProtected(post) {
   return `
     <li class="js-post post ">
       <h2 class="posts-title">${post.postName}</h2>
-      
+      <p class="post-id" >${post.id}</p>
       <div class="post-info">
       <p class="post-username info-box">User: ${post.username}</p>
         <p class="post-platform info-box">${post.platform.toUpperCase()}</p>
@@ -385,13 +385,20 @@ function displayMyPosts() {
   getMyPostsRequest(displayPostsProtected);
 }
 
-function deleteMyPost(success) {
-  const id = post.id;
-  console.log(id);
+function handlePostDelete(event) {
+  event.preventDefault();
+  const id = $(event.currentTarget)
+    .find(".post-id")
+    .val();
+  deleteMyPost(id);
+}
+
+function deleteMyPost(id) {
   $.ajax({
-    url: `/api/posts/my-posts/5cd9b54adb8a30255bb2832d`,
+    url: `/api/posts/my-posts/${id}`,
     type: "DELETE",
-    dataType: "json",
+    data: JSON.stringify({ id }),
+    contentType: "application/json",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     },
@@ -434,7 +441,7 @@ $(function onLoad() {
     displayHomePageLoggedOut
   );
   $(`.js-header-section`).on("click", ".js-register-btn", displayRegisterPage);
-  $(`.js-content-section`).on("click", ".js-delete-btn", deleteMyPost);
+  $(`.js-content-section`).on("click", ".js-delete-btn", handlePostDelete);
   $(`.js-content-section`).on("submit", ".js-login-form", handleLoginSubmit);
   $(`.js-content-section`).on(
     "submit",

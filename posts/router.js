@@ -24,7 +24,8 @@ router.post("/", jsonParser, jwtAuth, (req, res) => {
       platform: req.body.platform,
       region: req.body.region,
       deadline: new Date(req.body.deadline),
-      message: req.body.message
+      message: req.body.message,
+      id: req.body.id
     })
       .then(post => res.status(201).json(post.serialize()))
       .catch(err => {

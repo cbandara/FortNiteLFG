@@ -116,7 +116,7 @@ function handleReplyPost(event) {
   const id = $(event.target)
     .closest(".js-post")
     .data("post-id");
-  getReplyRequest(id, displayReplyPostPage);
+  getPostRequest(id, displayReplyPostPage);
 }
 
 function handleDeleteMyPost(event) {
@@ -133,7 +133,14 @@ function handlePlatformSearch(event) {
   console.log(platforms);
 }
 
-function deleteExpiredPosts() {}
+function handleReplySubmit(event) {
+  const id = $(event.target)
+    .closest(".js-post")
+    .data("post-id");
+  const reply = $(event.currentTarget).find(".create-message").val()
+  )
+}
+
 
 $(function onLoad() {
   let loggedIn = localStorage.getItem("token");
@@ -180,6 +187,7 @@ $(function onLoad() {
     ".js-register-form",
     handleRegisterSubmit
   );
+  $(`.js-content-section`).on("submit", ".js-reply-form", handleReplySubmit);
   $(`.js-content-section`).on(
     "submit",
     ".js-create-post-form",

@@ -127,7 +127,7 @@ router.put("/:id", jsonParser, jwtAuth, (req, res) => {
   }
 });
 
-router.put("/reply/:id", jsonParser, (req, res) => {
+router.put("/:id", jsonParser, jwtAuth, (req, res) => {
   console.log(req.body.comments);
   Post.findByIdAndUpdate(req.params.id, {
     comments: req.body.comments

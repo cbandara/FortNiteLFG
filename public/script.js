@@ -105,12 +105,28 @@ function handleViewPost(event) {
   getPostRequest(id, displayPost);
 }
 
+function handleEditPost(event) {
+  const id = $(event.target)
+    .closest(".js-post")
+    .data("post-id");
+  getPostRequest(id, displayCreatePostPage);
+}
+
 function handleDeleteMyPost(event) {
   const id = $(event.target)
     .closest(".js-post")
     .data("post-id");
   deleteMyPost(id, displayMyPosts);
 }
+
+function handlePlatformSearch(event) {
+  const platforms = $(event.target)
+    .find("input[type='checkbox']")
+    .val();
+  console.log(platforms);
+}
+
+function deleteExpiredPosts() {}
 
 $(function onLoad() {
   let loggedIn = localStorage.getItem("token");
@@ -142,6 +158,12 @@ $(function onLoad() {
     displayHomePageLoggedOut
   );
   $(`.js-header-section`).on("click", ".js-register-btn", displayRegisterPage);
+  $(`.js-content-section`).on("click", ".js-edit-btn", handleEditPost);
+  $(`.js-controls-section`).on(
+    "submit",
+    ".platform-submit",
+    handlePlatformSearch
+  );
   $(`.js-content-section`).on("click", ".js-delete-btn", handleDeleteMyPost);
   $(`.js-content-section`).on("click", ".js-view-btn", handleViewPost);
   $(`.js-content-section`).on("submit", ".js-login-form", handleLoginSubmit);

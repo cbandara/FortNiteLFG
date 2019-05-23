@@ -151,7 +151,8 @@ a:visited:hover {
 }
 
 .register-form,
-.create-post-form {
+.create-post-form,
+.login-form {
   width: 80%;
   background: rgb(40, 11, 56, 0.7);
   padding-left: 30px;
@@ -185,8 +186,4 @@ textarea {
   padding-bottom: 15px;
   padding-left: 20px;
   padding-right: 20px;
-}
-
-radio {
-  background: black;
 }

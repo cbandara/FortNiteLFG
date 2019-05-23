@@ -78,6 +78,18 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/pc", (req, res) => {
+  Post.find({ platform: "pc" })
+    .populate("user")
+    .then(posts => {
+      res.status(200).json(posts.map(post => post.serialize()));
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send("Error while getting posts");
+    });
+});
+
 // Get one post by ID
 router.get("/:id", (req, res) => {
   Post.findById({ _id: req.params.id })
@@ -88,6 +100,32 @@ router.get("/:id", (req, res) => {
       console.error(err);
       res.status(500).send("Error while getting post");
     });
+});
+
+router.put("/:id", jsonParser, jwtAuth, (req, res) => {
+  if (!req.body.postName) {
+    return res.status(400).send("Post name is required");
+  }
+  if (!req.body.message) {
+    return res.status(400).send("Post message is required");
+  } else {
+    Post.update({
+      // Do I need to include all fields here or can i exclude
+      // user and deadline?
+      // How do I use placeholders
+      id: req.params.id,
+      postName: req.body.postName,
+      platform: req.body.platform,
+      deadline: req.body.deadline,
+      region: req.body.region,
+      message: req.body.message
+    })
+      .then(post => res.status(204).json(post))
+      .catch(err => {
+        console.error(err);
+        res.status(500).send("Error while posting");
+      });
+  }
 });
 
 module.exports = { router };

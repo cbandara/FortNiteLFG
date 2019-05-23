@@ -13,7 +13,7 @@ function displayFilterControls() {
       <legend class="filter-legend">Select one or more platform(s)</legend>
       <input type="checkbox" name="platform" id="pc" value="pc" checked><label for="pc">PC</label>
       <input type="checkbox" name="platform" id="xb1" value="xb1" checked><label for="xb1">Xbox</label>
-      <input type="checkbox" name="platform" id="psn" value="psn"><label for="psn">Playstation</label>
+      <input type="checkbox" name="platform" id="psn" value="psn" checked><label for="psn">Playstation</label>
       <input type="submit" class="platform-submit" value="Search">
   `);
 }
@@ -67,7 +67,7 @@ function mapMyPosts(posts) {
 function displayLoginPage() {
   displayLoginRegisterButton();
   $(`.js-content-section`).html(`
-    <form class="js-login-form">
+    <form class="js-login-form login-form">
       <p>Username is case sensitive</p>
       <label for="username-login">Username:</label>
       <input type="text" name="username-login" class="username-login">
@@ -121,9 +121,10 @@ function displayHomePageLoggedOut() {
 
 function displayCreatePostPage() {
   let todayDate = new Date();
-  const date1 = todayDate.toJSON().slice(0, 16);
-  todayDate.setMinutes(todayDate.getMinutes() - 180);
-  const date2 = todayDate.toJSON().slice(0, 16);
+  // const date1 = todayDate.toJSON().slice(0, 16);
+  todayDate.setMinutes(todayDate.getMinutes() + 60);
+  const date2 = dateFns.format(todayDate.toLocaleString(), "YYYY-MM-DDTHH:mm");
+  console.log(date2);
   displayHeaderButtons();
   $(`.js-controls-section`).html(``);
   $(`.js-content-section`).html(`
@@ -132,7 +133,7 @@ function displayCreatePostPage() {
       <br>
       <input type="text" name="create-post-name" class="create-post-name">
       <br>
-      <label for="create-message">Message:</label>
+      <label for="create-message">Message</label>
       <br>
       <textarea rows="4" cols="50" name="create-message" class="create-message" form="js-create-post-form"></textarea>
       <br>
@@ -254,6 +255,7 @@ function generateMyPostElement(post) {
     </ul>
     <button type="button" class="js-view-btn post-controls">View</button>
     <button type="button" class="js-reply-btn post-controls">Reply</button>
+    <button type="button" class="js-edit-btn post-controls">Edit</button>
     <button type="button" class="js-delete-btn post-controls">Delete</button>
 </li>
 `;

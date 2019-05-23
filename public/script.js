@@ -109,7 +109,14 @@ function handleEditPost(event) {
   const id = $(event.target)
     .closest(".js-post")
     .data("post-id");
-  getPostRequest(id, displayCreatePostPage);
+  getPostRequest(id, displayEditPostPage);
+}
+
+function handleReplyPost(event) {
+  const id = $(event.target)
+    .closest(".js-post")
+    .data("post-id");
+  getReplyRequest(id, displayReplyPostPage);
 }
 
 function handleDeleteMyPost(event) {
@@ -159,6 +166,7 @@ $(function onLoad() {
   );
   $(`.js-header-section`).on("click", ".js-register-btn", displayRegisterPage);
   $(`.js-content-section`).on("click", ".js-edit-btn", handleEditPost);
+  $(`.js-content-section`).on("click", ".js-reply-btn", handleReplyPost);
   $(`.js-controls-section`).on(
     "submit",
     ".platform-submit",

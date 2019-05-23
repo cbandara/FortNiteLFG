@@ -109,11 +109,10 @@ router.put("/:id", jsonParser, jwtAuth, (req, res) => {
   if (!req.body.message) {
     return res.status(400).send("Post message is required");
   } else {
-    Post.update({
+    Post.findByIdAndUpdate(req.params.id, {
       // Do I need to include all fields here or can i exclude
       // user and deadline?
       // How do I use placeholders
-      id: req.params.id,
       postName: req.body.postName,
       platform: req.body.platform,
       deadline: req.body.deadline,
@@ -126,6 +125,18 @@ router.put("/:id", jsonParser, jwtAuth, (req, res) => {
         res.status(500).send("Error while posting");
       });
   }
+});
+
+router.put("/reply/:id", jsonParser, (req, res) => {
+  console.log(req.body.comments);
+  Post.findByIdAndUpdate(req.params.id, {
+    comments: req.body.comments
+  })
+    .then(post => res.status(204).json(post))
+    .catch(err => {
+      console.error(err);
+      res.status(500).send("Error while posting");
+    });
 });
 
 module.exports = { router };

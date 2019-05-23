@@ -157,6 +157,92 @@ function displayCreatePostPage() {
   `);
 }
 
+function displayEditPostPage(post) {
+  console.log(post);
+  let todayDate = new Date(post.deadline);
+  // const date1 = todayDate.toJSON().slice(0, 16);
+  // todayDate.setMinutes(todayDate.getMinutes() + 60);
+  const date2 = dateFns.format(todayDate.toLocaleString(), "YYYY-MM-DDTHH:mm");
+  console.log(date2);
+  displayHeaderButtons();
+  $(`.js-controls-section`).html(``);
+  $(`.js-content-section`).html(`
+    <form class="js-create-post-form create-post-form">
+      <label for="create-post-name">Title</label>
+      <br>
+      <input type="text" name="create-post-name" class="create-post-name" value="${
+        post.postName
+      }">
+      <br>
+      <label for="create-message">Message</label>
+      <br>
+      <textarea rows="4" cols="50" name="create-message" class="create-message" form="js-create-post-form" placeholder="${
+        post.message
+      }"></textarea>
+      <br>
+      <legend>Select one platform</legend>
+      <input type="radio" class="create-platform" name="create-platform" id="pc" value="pc" checked><label for="pc">PC</label>
+      <input type="radio" class="create-platform" name="create-platform" id="xb1" value="xb1"<label for="xb1">Xbox</label>
+      <input type="radio" class="create-platform" name="create-platform" id="psn" value="psn"><label for="psn">Playstation</label>
+      <br>
+      <legend>Select one region</legend>
+      <input type="radio" name="region" class="region" id="na-west" value="na-west" checked><label for="na-west">North America (West)</label>
+      <input type="radio" name="region" class="region" id="na-east" value="na-east"<label for="na-east">North America (EAST)</label>
+      <input type="radio" name="region" class="region" id="eu" value="eu"><label for="eu">Europe</label>
+      <br>
+      <label for="create-deadline">Deadline</label>
+      <input type="datetime-local" id="create-deadline" class = "create-deadline"
+       name="create-deadline" value="${date2}"
+       min="${date2}">
+       <br>
+      <button type="submit">Update</button>
+    </form>
+  `);
+}
+
+function displayReplyPostPage(post) {
+  let deadline = new Date(post.deadline);
+  // const date2 = dateFns.format(todayDate.toLocaleString(), "YYYY-MM-DDTHH:mm");
+  displayHeaderButtons();
+  console.log(post);
+  const listOfComments = post.comments.map(
+    reply => `
+    <li>
+      <p class="reply-author">${reply.username}</p>
+      <p class="reply-message">${reply.message}</p>
+      <p class="reply-date">${reply.datePosted}</p>
+    </li>
+  `
+  );
+  $(`.js-controls-section`).html(``);
+  $(`.js-content-section`).html(`
+   <div class="js-post post" data-post-id="${post.id}">
+      <h2 class="posts-title">${post.postName}</h2>
+      <div class="post-info">
+      <p class="post-username info-box">User: ${post.username}</p>
+        <p class="post-platform info-box">${post.platform.toUpperCase()}</p>
+        <p class="post-region info-box">${post.region.toUpperCase()}</p>
+        <p class="post-deadline info-box">${formatAMPM(deadline)}</p>
+    </div>
+    <div>
+      <p class="posts-message">${post.message}</p>
+    </div>
+    <br>
+    <ul class="comments-section">
+      ${listOfComments.join("")}
+    </ul>
+    <br>
+    <form class="js-reply-form reply-form">
+      <textarea rows="4" cols="50" name="create-message" class="create-message" form="js-create-post-form" value="${
+        post.message
+      }"></textarea>
+    <br>
+      <button type="submit">Reply</button>
+    
+</div>
+  `);
+}
+
 function generatePostElement(post) {
   const postButtons = !!localStorage.getItem("token")
     ? `<button type="button" class="js-view-btn post-controls">View</button>

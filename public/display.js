@@ -10,11 +10,13 @@ function displayHeaderButtons() {
 function displayFilterControls() {
   // Set what gets displayed when an item is checked (repopulate posts)
   $(`.js-controls-section`).html(`
+    <form class="js-platform-form platform-form">
       <legend class="filter-legend">Select one or more platform(s)</legend>
       <input type="checkbox" name="platform" id="pc" value="pc" checked><label for="pc">PC</label>
       <input type="checkbox" name="platform" id="xb1" value="xb1" checked><label for="xb1">Xbox</label>
       <input type="checkbox" name="platform" id="psn" value="psn" checked><label for="psn">Playstation</label>
-      <input type="submit" class="platform-submit" value="Search">
+      <button type="submit">Search</button>
+    </form>
   `);
 }
 
@@ -27,15 +29,6 @@ function displayLoginRegisterButton() {
 }
 
 function displayPosts(posts) {
-  const listOfPosts = posts.map(post => generatePostElement(post));
-  $(`.js-content-section`).html(`
-    <ul class="posts-list">
-      ${listOfPosts.join("")}
-    </ul>
-  `);
-}
-
-function displayPostsProtected(posts) {
   const listOfPosts = posts.map(post => generatePostElement(post));
   $(`.js-content-section`).html(`
     <ul class="posts-list">
@@ -233,9 +226,7 @@ function displayReplyPostPage(post) {
     </ul>
     <br>
     <form class="js-reply-form reply-form">
-      <textarea rows="4" cols="50" name="create-message" class="create-message" form="js-create-post-form" value="${
-        post.message
-      }"></textarea>
+      <textarea rows="4" cols="50" name="create-message" class="js-create-comment create-comment" form="js-reply-form"></textarea>
     <br>
       <button type="submit">Reply</button>
     

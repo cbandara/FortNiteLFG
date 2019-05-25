@@ -127,19 +127,26 @@ function handleDeleteMyPost(event) {
 }
 
 function handlePlatformSearch(event) {
-  const platforms = $(event.target)
-    .find("input[type='checkbox']")
-    .val();
+  event.preventDefault();
+  const platforms = [];
+  $("input[name='platform']:checked").each(function() {
+    platforms.push($(this).val());
+  });
+  getPostsRequestwPlatforms(platforms, displayPosts);
+
   console.log(platforms);
 }
 
 function handleReplySubmit(event) {
+  event.preventDefault();
   const id = $(event.target)
     .closest(".js-post")
     .data("post-id");
   const reply = $(event.currentTarget)
-    .find(".create-message")
+    .find(".create-comment")
     .val();
+  console.log(id, reply);
+  getReplyRequest(id, reply, displayMyPosts);
 }
 
 $(function onLoad() {
@@ -148,7 +155,7 @@ $(function onLoad() {
   if (loggedIn) {
     displayHeaderButtons();
     displayFilterControls();
-    getPostsRequest(displayPostsProtected);
+    getPostsRequest(displayPosts);
   } else {
     displayLoginRegisterButton();
     getPostsRequest(displayPosts);
@@ -176,7 +183,7 @@ $(function onLoad() {
   $(`.js-content-section`).on("click", ".js-reply-btn", handleReplyPost);
   $(`.js-controls-section`).on(
     "submit",
-    ".platform-submit",
+    ".js-platform-form",
     handlePlatformSearch
   );
   $(`.js-content-section`).on("click", ".js-delete-btn", handleDeleteMyPost);

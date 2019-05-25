@@ -78,8 +78,10 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/pc", (req, res) => {
-  Post.find({ platform: "pc" })
+router.get("/platforms", (req, res) => {
+  const platforms = req.params.platforms;
+  console.log(platforms);
+  Post.find({ platform: platforms })
     .populate("user")
     .then(posts => {
       res.status(200).json(posts.map(post => post.serialize()));
@@ -127,7 +129,7 @@ router.put("/:id", jsonParser, jwtAuth, (req, res) => {
   }
 });
 
-router.put("/:id", jsonParser, jwtAuth, (req, res) => {
+router.put("/reply/:id", jsonParser, jwtAuth, (req, res) => {
   console.log(req.body.comments);
   Post.findByIdAndUpdate(req.params.id, {
     comments: req.body.comments

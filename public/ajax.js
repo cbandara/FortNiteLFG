@@ -118,7 +118,21 @@ function getPostRequest(id, success) {
   });
 }
 
-function getReplyRequest(id, success) {
+function getPostsRequestwPlatforms(platforms, success) {
+  $.ajax({
+    url: `/api/posts/platforms/`,
+    data: JSON.stringify({ platforms }),
+    type: "GET",
+    error: function(err) {
+      $(".js-alert-section").html(`<p>${err.responseText}</p>`);
+    },
+    success: function(data) {
+      success(data);
+    }
+  });
+}
+
+function getReplyRequest(id, reply, success) {
   $.ajax({
     url: `/api/posts/reply/${id}`,
     type: "GET",

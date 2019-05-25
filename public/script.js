@@ -137,10 +137,10 @@ function handleReplySubmit(event) {
   const id = $(event.target)
     .closest(".js-post")
     .data("post-id");
-  const reply = $(event.currentTarget).find(".create-message").val()
-  )
+  const reply = $(event.currentTarget)
+    .find(".create-message")
+    .val();
 }
-
 
 $(function onLoad() {
   let loggedIn = localStorage.getItem("token");

@@ -85,7 +85,14 @@ function handlePostSubmit(event) {
   const message = $(event.currentTarget)
     .find(".create-message")
     .val();
-  postPostRequest(postName, platform, region, deadline, message);
+  postPostRequest(
+    postName,
+    platform,
+    region,
+    deadline,
+    message,
+    displayHomePage
+  );
 }
 
 function handleLogOut() {
@@ -112,10 +119,42 @@ function handleEditPost(event) {
   getPostRequest(id, displayEditPostPage);
 }
 
+function handleEditPostSubmit(event) {
+  event.preventDefault();
+  const id = $(event.target)
+    .find(".post-id")
+    .val();
+  const postName = $(event.currentTarget)
+    .find(".create-post-name")
+    .val();
+  const platform = $(event.currentTarget)
+    .find(".create-platform")
+    .val();
+  const deadline = $(event.currentTarget)
+    .find(".create-deadline")
+    .val();
+  const region = $(event.currentTarget)
+    .find(".region")
+    .val();
+  const message = $(event.currentTarget)
+    .find(".create-message")
+    .val();
+  putPostRequest(
+    id,
+    postName,
+    platform,
+    region,
+    deadline,
+    message,
+    displayHomePage
+  );
+}
+
 function handleReplyPost(event) {
   const id = $(event.target)
     .closest(".js-post")
     .data("post-id");
+  console.log(id);
   getPostRequest(id, displayReplyPostPage);
 }
 
@@ -146,7 +185,7 @@ function handleReplySubmit(event) {
     .find(".create-comment")
     .val();
   console.log(id, reply);
-  getReplyRequest(id, reply, displayMyPosts);
+  putReplyRequest(id, reply, displayPost);
 }
 
 $(function onLoad() {
@@ -199,5 +238,10 @@ $(function onLoad() {
     "submit",
     ".js-create-post-form",
     handlePostSubmit
+  );
+  $(`.js-content-section`).on(
+    "submit",
+    ".js-edit-post-form",
+    handleEditPostSubmit
   );
 });

@@ -43,8 +43,7 @@ const PostSchema = new mongoose.Schema({
   datePosted: { type: Date, default: Date.now },
   deadline: { type: Date },
   message: { type: String, required: true },
-  comments: [commentSchema],
-  createdAt: { type: Date, expires: "10s", default: Date.now }
+  comments: [commentSchema]
 });
 
 // PostSchema.pre("find", function(next) {

@@ -102,7 +102,7 @@ function displayRegisterPage() {
 function displayHomePage() {
   displayHeaderButtons();
   displayFilterControls();
-  getPostsRequest(displayPostsProtected);
+  getPostsRequest(displayPosts);
 }
 
 function displayHomePageLoggedOut() {
@@ -160,7 +160,8 @@ function displayEditPostPage(post) {
   displayHeaderButtons();
   $(`.js-controls-section`).html(``);
   $(`.js-content-section`).html(`
-    <form class="js-create-post-form create-post-form">
+    <form class="js-edit-post-form create-edit-form">
+      <input type="hidden" name="post-id" class="post-id" value="${post.id}">
       <label for="create-post-name">Title</label>
       <br>
       <input type="text" name="create-post-name" class="create-post-name" value="${
@@ -201,7 +202,7 @@ function displayReplyPostPage(post) {
   const listOfComments = post.comments.map(
     reply => `
     <li>
-      <p class="reply-author">${reply.username}</p>
+      <p class="reply-author">${reply.user.username}</p>
       <p class="reply-message">${reply.message}</p>
       <p class="reply-date">${reply.datePosted}</p>
     </li>
@@ -234,22 +235,26 @@ function displayReplyPostPage(post) {
   `);
 }
 
+function generateReplies(post) {
+  const listOfReplies = post.comments.map(reply => {
+    const commentDate = new Date(reply.datePosted);
+    return `
+      <li class="reply-li">
+        <p class="reply-message">${reply.message}</p> 
+        <p class="reply-author">${reply.user.username}</p>
+        <p class="reply-date">${formatAMPM(commentDate)}</p>
+      </li>
+    `;
+  });
+  return listOfReplies;
+}
+
 function generatePostElement(post) {
   const postButtons = !!localStorage.getItem("token")
     ? `<button type="button" class="js-view-btn post-controls">View</button>
   <button type="button" class="js-reply-btn post-controls">Reply</button>`
     : `<button type="button" class="js-view-btn post-controls">View</button>`;
   const deadline = new Date(post.deadline);
-
-  const listOfReplies = post.comments.map(
-    reply => `
-    <li>
-      <p class="reply-author">${reply.username}</p>
-      <p class="reply-message">${reply.message}</p>
-      <p class="reply-date">${reply.datePosted}</p>
-    </li>
-  `
-  );
   return `
     <li class="js-post post " data-post-id="${post.id}">
       <h2 class="posts-title">${post.postName}</h2>
@@ -263,7 +268,7 @@ function generatePostElement(post) {
       <p class="posts-message">${post.message}</p>
     </div>
     <ul class="comments-section">
-      ${listOfReplies.join("")}
+      ${generateReplies(post).join("")}
     </ul>
     ${postButtons}
 </li>
@@ -272,20 +277,9 @@ function generatePostElement(post) {
 
 function generateViewPostElement(post) {
   const deadline = new Date(post.deadline);
-
-  const listOfReplies = post.comments.map(
-    reply => `
-    <li>
-      <p class="reply-author">${reply.username}</p>
-      <p class="reply-message">${reply.message}</p>
-      <p class="reply-date">${reply.datePosted}</p>
-    </li>
-  `
-  );
   return `
-    <li class="js-post post data-post-id="${post.id}"">
+    <li class="js-post post " data-post-id="${post.id}">
       <h2 class="posts-title">${post.postName}</h2>
-      <p class="post-id" style="display:none">${post.id}</p>
       <div class="post-info">
       <p class="post-username info-box">User: ${post.username}</p>
         <p class="post-platform info-box">${post.platform.toUpperCase()}</p>
@@ -296,7 +290,7 @@ function generateViewPostElement(post) {
       <p class="posts-message">${post.message}</p>
     </div>
     <ul class="comments-section">
-      ${listOfReplies.join("")}
+      ${generateReplies(post).join("")}
     </ul>
     <button type="button" class="js-reply-btn post-controls">Reply</button>
 </li>
@@ -309,7 +303,7 @@ function generateMyPostElement(post) {
   const listOfReplies = post.comments.map(
     reply => `
     <li>
-      <p class="reply-author">${reply.username}</p>
+      <p class="reply-author">${reply.user.username}</p>
       <p class="reply-message">${reply.message}</p>
       <p class="reply-date">${reply.datePosted}</p>
     </li>
@@ -328,7 +322,7 @@ function generateMyPostElement(post) {
       <p class="posts-message">${post.message}</p>
     </div>
     <ul class="comments-section">
-      ${listOfReplies.join("")}
+      ${generateReplies(post).join("")}
     </ul>
     <button type="button" class="js-view-btn post-controls">View</button>
     <button type="button" class="js-reply-btn post-controls">Reply</button>

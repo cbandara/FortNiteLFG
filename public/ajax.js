@@ -40,7 +40,7 @@ function loginRequest(username, password) {
       localStorage.setItem("token", data.authToken);
       displayHeaderButtons();
       displayFilterControls();
-      getPostsRequest(displayPostsProtected);
+      getPostsRequest(displayPosts);
     }
   });
 }
@@ -60,7 +60,14 @@ function registerRequest(username, password, platform) {
   });
 }
 
-function postPostRequest(postName, platform, region, deadline, message) {
+function postPostRequest(
+  postName,
+  platform,
+  region,
+  deadline,
+  message,
+  callback
+) {
   $.ajax({
     url: "/api/posts/",
     type: "POST",
@@ -79,11 +86,38 @@ function postPostRequest(postName, platform, region, deadline, message) {
       }
       $(".js-alert-section").html(`<p>${err.responseText}</p>`);
     },
-    success: function(data) {
-      displayHeaderButtons();
-      displayFilterControls();
-      getPostsRequest(displayPostsProtected);
-    }
+    success: callback
+  });
+}
+
+function putPostRequest(
+  id,
+  postName,
+  platform,
+  region,
+  deadline,
+  message,
+  callback
+) {
+  $.ajax({
+    url: `/api/posts/${id}`,
+    type: "PUT",
+    data: JSON.stringify({ id, postName, platform, region, deadline, message }),
+    contentType: "application/json",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    },
+    error: function(err) {
+      console.log(err);
+      if (err.status === 401) {
+        localStorage.clear();
+        $(".js-alert-section").html(`<p>Your Session has expired</p>`);
+        displayLoginPage();
+        return;
+      }
+      $(".js-alert-section").html(`<p>${err.responseText}</p>`);
+    },
+    success: callback
   });
 }
 
@@ -132,10 +166,15 @@ function getPostsRequestwPlatforms(platforms, success) {
   });
 }
 
-function getReplyRequest(id, reply, success) {
+function putReplyRequest(id, reply, success) {
   $.ajax({
     url: `/api/posts/reply/${id}`,
-    type: "GET",
+    type: "PUT",
+    data: JSON.stringify({ reply }),
+    contentType: "application/json",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    },
     error: function(err) {
       $(".js-alert-section").html(`<p>${err.responseText}</p>`);
     },

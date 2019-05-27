@@ -19,6 +19,13 @@ function getMyPostsRequest(success) {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     },
     error: function(err) {
+      console.log(err);
+      if (err.status === 401) {
+        localStorage.clear();
+        $(".js-alert-section").html(`<p>Your Session has expired</p>`);
+        displayLoginPage();
+        return;
+      }
       $(".js-alert-section").html(`<p>${err.responseText}</p>`);
     },
     success: function(data) {

@@ -81,10 +81,17 @@ router.get("/", (req, res) => {
 });
 
 router.get("/platforms", (req, res) => {
-  const platforms = req.params.platforms;
-  console.log(platforms);
-  Post.find({ platform: platforms })
+  const platforms = req.body;
+  console.log(req.params.platforms);
+  // const query = platforms.map(item => `platform: ${item}`);
+  // console.log(query);
+  Post.find({
+    // platform: platforms[0],
+    // platform: platforms[1],
+    // platform: platforms[2]
+  })
     .populate("user")
+    .populate("comments.user")
     .then(posts => {
       res.status(200).json(posts.map(post => post.serialize()));
     })

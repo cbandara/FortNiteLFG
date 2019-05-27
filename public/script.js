@@ -1,22 +1,3 @@
-// When the app loads, display view posts page
-// Display filter controls
-// Check if logged in
-// If logged in:
-// Display create button
-// Display log out button
-// Get posts from server of user's platform
-// Set platform filter to user's platform
-// Display posts and (edit, comment, view, delete) buttons
-// Else:
-// display login/register button
-// Get posts from server
-// Display posts
-
-// When user clicks - Create button
-// Load create post page
-
-// When user clicks - Reply button
-
 function formatAMPM(date) {
   let hours = date.getHours();
   let minutes = date.getMinutes();
@@ -31,8 +12,6 @@ function formatAMPM(date) {
     hours + ":" + minutes + " " + ampm + " " + month + "/" + day + "/" + year;
   return strTime;
 }
-
-// Consider using a ternary operator to combine the protected function
 
 function handleLoginSubmit(event) {
   event.preventDefault();
@@ -74,8 +53,9 @@ function handlePostSubmit(event) {
     .find(".create-post-name")
     .val();
   const platform = $(event.currentTarget)
-    .find(".create-platform")
+    .find(".create-platform:checked")
     .val();
+  console.log(platform);
   const deadline = $(event.currentTarget)
     .find(".create-deadline")
     .val();
@@ -128,7 +108,7 @@ function handleEditPostSubmit(event) {
     .find(".create-post-name")
     .val();
   const platform = $(event.currentTarget)
-    .find(".create-platform")
+    .find(".create-platform:checked")
     .val();
   const deadline = $(event.currentTarget)
     .find(".create-deadline")
@@ -154,7 +134,6 @@ function handleReplyPost(event) {
   const id = $(event.target)
     .closest(".js-post")
     .data("post-id");
-  console.log(id);
   getPostRequest(id, displayReplyPostPage);
 }
 
@@ -184,7 +163,6 @@ function handleReplySubmit(event) {
   const reply = $(event.currentTarget)
     .find(".create-comment")
     .val();
-  console.log(id, reply);
   putReplyRequest(id, reply, displayPost);
 }
 
@@ -200,8 +178,6 @@ $(function onLoad() {
     getPostsRequest(displayPosts);
     $(`.js-view-btn`).css("display", "none");
     $(`.js-reply-btn`).css("display", "none");
-
-    // View Button
   }
   $(`.js-header-section`).on("click", ".js-logout-btn", handleLogOut);
   $(`.js-header-section`).on(

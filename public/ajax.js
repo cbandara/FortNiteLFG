@@ -162,7 +162,7 @@ function getPostRequest(id, success) {
 function getPostsRequestwPlatforms(platforms, success) {
   $.ajax({
     url: `/api/posts/platforms/`,
-    data: JSON.stringify({ platforms }),
+    data: { platforms: JSON.stringify(platforms) },
     type: "GET",
     error: function(err) {
       $(".js-alert-section").html(`<p>${err.responseText}</p>`);

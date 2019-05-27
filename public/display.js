@@ -117,7 +117,6 @@ function displayCreatePostPage() {
   // const date1 = todayDate.toJSON().slice(0, 16);
   todayDate.setMinutes(todayDate.getMinutes() + 60);
   const date2 = dateFns.format(todayDate.toLocaleString(), "YYYY-MM-DDTHH:mm");
-  console.log(date2);
   displayHeaderButtons();
   $(`.js-controls-section`).html(``);
   $(`.js-content-section`).html(`
@@ -151,12 +150,10 @@ function displayCreatePostPage() {
 }
 
 function displayEditPostPage(post) {
-  console.log(post);
   let todayDate = new Date(post.deadline);
   // const date1 = todayDate.toJSON().slice(0, 16);
   // todayDate.setMinutes(todayDate.getMinutes() + 60);
   const date2 = dateFns.format(todayDate.toLocaleString(), "YYYY-MM-DDTHH:mm");
-  console.log(date2);
   displayHeaderButtons();
   $(`.js-controls-section`).html(``);
   $(`.js-content-section`).html(`
@@ -198,7 +195,6 @@ function displayReplyPostPage(post) {
   let deadline = new Date(post.deadline);
   // const date2 = dateFns.format(todayDate.toLocaleString(), "YYYY-MM-DDTHH:mm");
   displayHeaderButtons();
-  console.log(post);
   const listOfComments = post.comments.map(
     reply => `
     <li>

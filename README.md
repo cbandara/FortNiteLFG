@@ -41,21 +41,26 @@ contentType: "application/json"
 ```
 
 Registering users requires 3 things: username, password, platform
+
 Username
 
 - Must be an existing username in the Epic Games network
 - Usernames are case sensitive
 - Some users may not be able to sign up if their Epic Games username has already been claimed
-- Must be a string
+- Client will receive a validation error if the username is already taken
+
   Password
+
 - Minimum 8 characters
 - Maximum 72 characters
+
   Platform
+
 - This API currently supports 3 platforms: PC, Xbox, and Playstation
 - Users should choose the platform that they created their Epic Games Account with
 - Users will be allowed to make posts for different platforms after registering, they just need one main platform assigned to their profile
-- Client will receive a validation error if the username is already taken
-- This data will all be sent to an external API called FortniteTracker that keeps Epic user statistics and validates that the user name is an Epic username.
+
+This data will all be sent to an external API called FortniteTracker that keeps Epic user statistics and validates that the user name is an Epic username.
 
 ### POST Login Request
 

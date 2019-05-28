@@ -80,15 +80,13 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/platforms", (req, res) => {
-  const platforms = req.body;
-  console.log(req.params.platforms);
-  // const query = platforms.map(item => `platform: ${item}`);
-  // console.log(query);
+// Get Posts by platform
+router.post("/platforms", jsonParser, (req, res) => {
+  const platforms = req.body.platforms;
+  console.log(req.body.platforms);
+  console.log(platforms[0]);
   Post.find({
-    // platform: platforms[0],
-    // platform: platforms[1],
-    // platform: platforms[2]
+    platform: { $in: [platforms[0], platforms[1], platforms[2]] }
   })
     .populate("user")
     .populate("comments.user")

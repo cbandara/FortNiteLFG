@@ -160,16 +160,16 @@ function getPostRequest(id, success) {
 }
 
 function getPostsRequestwPlatforms(platforms, success) {
+  console.log(platforms);
   $.ajax({
     url: `/api/posts/platforms/`,
-    data: { platforms: JSON.stringify(platforms) },
-    type: "GET",
+    data: JSON.stringify({ platforms }),
+    type: "POST",
+    contentType: "application/json",
     error: function(err) {
       $(".js-alert-section").html(`<p>${err.responseText}</p>`);
     },
-    success: function(data) {
-      success(data);
-    }
+    success: success
   });
 }
 

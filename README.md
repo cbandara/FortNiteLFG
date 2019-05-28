@@ -18,6 +18,15 @@ headers: {
 
 This method gets all the posts in the database and does not require user to be logged in.
 
+### GET Post by ID
+
+```
+url: '/api/posts/:id/'
+type: 'GET',
+```
+
+Any post can be retreived using this method whether the user is logged in or not.
+
 ### GET My Posts
 
 ```
@@ -30,6 +39,17 @@ headers: {
 
 If a user is logged in, they can retrieve all of the posts they made using this method.
 An authorization header is required to access this endpoint. Only the user who created the posts will be able to access this page.
+
+### POST Show Posts by Platform
+
+```
+url: '/api/posts/:id/'
+type: 'POST',
+data: JSON.stringify({ platforms })
+```
+
+Retreive posts by platform by posting which platforms you're searching for.
+Platforms must be an array that contains one or more of the following options: ['pc','xb1','psn']
 
 ### POST Register Request
 
@@ -77,3 +97,66 @@ After the method you will want to set the authorization token in the client. You
 ```
 localStorage.setItem("token", data.authToken)
 ```
+
+### POST Post Request
+
+```
+url: '/api/posts/'
+type: 'POST',
+data: JSON.stringify({ postName, platform, region, deadline, message }),
+contentType: "application/json"
+headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}` <---- (Required)
+    }
+```
+
+A post request creates a new post in the database.
+
+- postName: Must be a string (required)
+- platform: 'pc','xb1','psn' (required)
+- region: 'na-east','na-west', 'eu' (required)
+- deadline: Date must be > now (required)
+- message: String (required)
+- user: This comes from the token that you must provide in the headers after creating a user account
+
+### DELETE Post Request
+
+```
+url: '/api/posts/my-posts/:id'
+type: 'POST',
+data: JSON.stringify({ _id: req.params.id }),
+contentType: "application/json"
+headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}` <---- (Required)
+    }
+```
+
+To delete a post you must have a valid token and you must pass a post id that belongs to the corresponding user. Users are only allowed to delete their own posts. You will not be able to delete the post if the user id on the token does not match the user id of the post given.
+
+### PUT Post Request
+
+```
+url: '/api/posts/:id'
+type: 'POST',
+data: JSON.stringify({ id, postName, platform, region, deadline, message }),
+contentType: "application/json"
+headers: {
+Authorization: `Bearer ${localStorage.getItem("token")}` <---- (Required)
+}
+```
+
+Editing a post is similar to creating a post except that you must inlcude the id of the existing post you made. The existing post must also belong to the user that provides the token.
+
+### PUT Reply Request
+
+```
+url: '/api/posts/reply/:id'
+type: 'POST',
+data: JSON.stringify({ reply }),
+contentType: "application/json"
+headers: {
+Authorization: `Bearer ${localStorage.getItem("token")}` <---- (Required)
+}
+```
+
+This method allows you to add replies to existing posts. You must be signed in but the post does not have to belong to you to add a reply. A reply consists of a datePosted (made automatically), a message, which must be a string and a user id, which is provided by the token.

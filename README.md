@@ -49,7 +49,7 @@ data: JSON.stringify({ platforms })
 ```
 
 Retreive posts by platform by posting which platforms you're searching for.
-Platforms must be an array that contains one or more of the following options: ['pc','xb1','psn']
+Platforms must be an array that contains one or more of the following options: ```['pc','xb1','psn']```
 
 ### POST Register Request
 
@@ -69,12 +69,12 @@ Username
 - Some users may not be able to sign up if their Epic Games username has already been claimed
 - Client will receive a validation error if the username is already taken
 
-  Password
+Password
 
 - Minimum 8 characters
 - Maximum 72 characters
 
-  Platform
+Platform
 
 - This API currently supports 3 platforms: PC, Xbox, and Playstation
 - Users should choose the platform that they created their Epic Games Account with
@@ -113,8 +113,8 @@ headers: {
 A post request creates a new post in the database.
 
 - postName: Must be a string (required)
-- platform: 'pc','xb1','psn' (required)
-- region: 'na-east','na-west', 'eu' (required)
+- platform: ```'pc','xb1','psn'``` (required)
+- region: ```'na-east','na-west','eu'``` (required)
 - deadline: Date must be > now (required)
 - message: String (required)
 - user: This comes from the token that you must provide in the headers after creating a user account

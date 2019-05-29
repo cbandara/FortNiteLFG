@@ -4,6 +4,8 @@ The application will allow users to find other Fortnite players to play with
 
 https://fierce-tundra-18202.herokuapp.com/
 
+When the application loads for the first time, users will be able to see the existing posts made by other users in the database.
+![First Screen](shot1.png)
 ## API Documentation
 
 ### GET All Posts

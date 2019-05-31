@@ -1,11 +1,15 @@
 # Fortnite Squad Finder
 
+## User Stories
+
 The application will allow users to find other Fortnite players to play with
 
 https://fierce-tundra-18202.herokuapp.com/
 
 When the application loads for the first time, users will be able to see the existing posts made by other users in the database.
 ![First Screen](shot1.png)
+Users will have 3 options on the menu bar: Home, Login, and Register. The home button will show all the posts but will be different if you are logged in. Both the login and register buttons will take you to respective forms that make POST requests to the API.
+
 ## API Documentation
 
 ### GET All Posts
@@ -51,7 +55,7 @@ data: JSON.stringify({ platforms })
 ```
 
 Retreive posts by platform by posting which platforms you're searching for.
-Platforms must be an array that contains one or more of the following options: ```['pc','xb1','psn']```
+Platforms must be an array that contains one or more of the following options: `['pc','xb1','psn']`
 
 ### POST Register Request
 
@@ -115,8 +119,8 @@ headers: {
 A post request creates a new post in the database.
 
 - postName: Must be a string (required)
-- platform: ```'pc','xb1','psn'``` (required)
-- region: ```'na-east','na-west','eu'``` (required)
+- platform: `'pc','xb1','psn'` (required)
+- region: `'na-east','na-west','eu'` (required)
 - deadline: Date must be > now (required)
 - message: String (required)
 - user: This comes from the token that you must provide in the headers after creating a user account

@@ -46,6 +46,7 @@ router.get("/my-posts", jwtAuth, (req, res) => {
   Post.find({ user: req.user.id })
     .populate("user")
     .populate("comments.user")
+    .sort({ datePosted: -1 })
     .then(posts => {
       res.status(200).json(posts.map(post => post.serialize()));
     })
@@ -71,6 +72,7 @@ router.get("/", (req, res) => {
   Post.find({})
     .populate("user")
     .populate("comments.user")
+    .sort({ datePosted: -1 })
     .then(posts => {
       res.status(200).json(posts.map(post => post.serialize()));
     })
@@ -90,6 +92,7 @@ router.post("/platforms", jsonParser, (req, res) => {
   })
     .populate("user")
     .populate("comments.user")
+    .sort({ datePosted: -1 })
     .then(posts => {
       res.status(200).json(posts.map(post => post.serialize()));
     })
@@ -120,7 +123,8 @@ router.put("/:id", jsonParser, jwtAuth, (req, res) => {
   if (!req.body.message) {
     return res.status(400).send("Post message is required");
   } else {
-    console.log(req.params.id, req.body);
+    console.log(req.user);
+    console.log(req.body);
     Post.findByIdAndUpdate(
       { _id: req.params.id },
       {
@@ -131,7 +135,8 @@ router.put("/:id", jsonParser, jwtAuth, (req, res) => {
         platform: req.body.platform,
         deadline: req.body.deadline,
         region: req.body.region,
-        message: req.body.message
+        message: req.body.message,
+        user: req.user.id
       }
     )
       .then(post => res.status(201).json(post))

@@ -117,14 +117,21 @@ router.get("/:id", (req, res) => {
 });
 
 router.put("/:id", jsonParser, jwtAuth, (req, res) => {
+  post => {
+    console.log(post.user);
+  };
   if (!req.body.postName) {
     return res.status(400).send("Post name is required");
   }
   if (!req.body.message) {
     return res.status(400).send("Post message is required");
   } else {
-    console.log(req.user);
-    console.log(req.body);
+    // console.log(req.user);
+    // console.log(req.body);
+    // Post.findById({ _id: req.params.id }, post => {
+    //   console.log(post.user);
+    //   return res.status(201).json(post);
+    // });
     Post.findByIdAndUpdate(
       { _id: req.params.id },
       {
@@ -135,11 +142,13 @@ router.put("/:id", jsonParser, jwtAuth, (req, res) => {
         platform: req.body.platform,
         deadline: req.body.deadline,
         region: req.body.region,
-        message: req.body.message,
-        user: req.user.id
+        message: req.body.message
       }
     )
-      .then(post => res.status(201).json(post))
+      .then(post => {
+        console.log(post.user);
+        return res.status(201).json(post);
+      })
       .catch(err => {
         console.error(err);
         res.status(500).send("Error while posting");

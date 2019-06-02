@@ -79,14 +79,14 @@ describe("Posts", function() {
           user: user._id,
           platform: "xb1",
           region: "eu",
-          deadline: new Date.now(),
+          deadline: new Date(6 / 4 / 2019),
           message: "test post message body"
         }
       ]);
     });
 
     afterEach(function() {
-      return User.remove();
+      return User.remove() && Post.remove();
     });
 
     it("should", function() {

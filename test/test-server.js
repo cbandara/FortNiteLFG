@@ -62,7 +62,7 @@ describe("Posts", function() {
       });
   });
 
-  describe("Given Posts in Database", function() {
+  describe("Create a user", function() {
     beforeEach(async function() {
       // Seed Users
       const user = await User.create({
@@ -93,7 +93,9 @@ describe("Posts", function() {
       return chai
         .request(app)
         .post("/api/users/")
-        .send({ user })
+        .send(() => {
+          console.log(user);
+        })
         .then(function(res) {
           expect(res).to.have.status;
         });

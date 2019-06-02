@@ -78,6 +78,7 @@ function displayRegisterPage() {
   $(`.js-content-section`).html(` 
       <form class="js-register-form register-form">
         <p>Username is case sensitive</p>
+        <p>After registering you must log in</p>
         <label for="username-register">Username:</label>
         <br>
         <input type="text" name="username-register" class="username-register" required>

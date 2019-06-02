@@ -117,9 +117,6 @@ router.get("/:id", (req, res) => {
 });
 
 router.put("/:id", jsonParser, jwtAuth, (req, res) => {
-  post => {
-    console.log(post.user);
-  };
   if (!req.body.postName) {
     return res.status(400).send("Post name is required");
   }
@@ -128,25 +125,35 @@ router.put("/:id", jsonParser, jwtAuth, (req, res) => {
   } else {
     // console.log(req.user);
     // console.log(req.body);
-    // Post.findById({ _id: req.params.id }, post => {
-    //   console.log(post.user);
-    //   return res.status(201).json(post);
-    // });
-    Post.findByIdAndUpdate(
-      { _id: req.params.id },
-      {
-        // Do I need to include all fields here or can i exclude
-        // user and deadline?
-        // How do I use placeholders
-        postName: req.body.postName,
-        platform: req.body.platform,
-        deadline: req.body.deadline,
-        region: req.body.region,
-        message: req.body.message
+    Post.findById({ _id: req.params.id }, post => {
+      console.log(post.user);
+      if (req.user === post.user) {
+        Post.findByIdAndUpdate(
+          { _id: req.params.id },
+          {
+            postName: req.body.postName,
+            platform: req.body.platform,
+            deadline: req.body.deadline,
+            region: req.body.region,
+            message: req.body.message
+          }
+        );
+      } else {
+        res.status(401).send("This post does not belong to you");
       }
-    )
+    })
+      // Post.findByIdAndUpdate(
+      //   { _id: req.params.id },
+      //   {
+      //     postName: req.body.postName,
+      //     platform: req.body.platform,
+      //     deadline: req.body.deadline,
+      //     region: req.body.region,
+      //     message: req.body.message
+      //   }
+      // )
       .then(post => {
-        console.log(post.user);
+        // console.log(post);
         return res.status(201).json(post);
       })
       .catch(err => {

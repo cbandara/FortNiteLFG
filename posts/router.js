@@ -125,23 +125,23 @@ router.put("/:id", jsonParser, jwtAuth, (req, res) => {
   } else {
     // console.log(req.user);
     // console.log(req.body);
-    Post.findById({ _id: req.params.id }, post => {
-      console.log(post.user);
-      if (req.user === post.user) {
-        Post.findByIdAndUpdate(
-          { _id: req.params.id },
-          {
-            postName: req.body.postName,
-            platform: req.body.platform,
-            deadline: req.body.deadline,
-            region: req.body.region,
-            message: req.body.message
-          }
-        );
-      } else {
-        res.status(401).send("This post does not belong to you");
-      }
-    })
+    Post.findById({ _id: req.params.id })
+      .populate("user")
+      .populate("comments.user")
+      .then(post => {
+        if (req.user === req.body.user) {
+          Post.findByIdAndUpdate(
+            { _id: req.params.id },
+            {
+              postName: req.body.postName,
+              platform: req.body.platform,
+              deadline: req.body.deadline,
+              region: req.body.region,
+              message: req.body.message
+            }
+          );
+        }
+      })
       // Post.findByIdAndUpdate(
       //   { _id: req.params.id },
       //   {

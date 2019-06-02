@@ -3,7 +3,7 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const { app, runServer, closeServer } = require("../server");
-const { PORT, TEST_DATABASE_URL } = require("../config");
+const { TEST_DATABASE_URL } = require("../config");
 const { User, Post } = require("../models");
 
 const expect = chai.expect;
@@ -39,68 +39,95 @@ chai.use(chaiHttp);
 //   }
 // }
 
-describe("Posts", function() {
+function tearDownDb() {
+  return new Promise((resolve, reject) => {
+    console.warn("Deleting database");
+    mongoose.connection
+      .dropDatabase()
+      .then(result => resolve(result))
+      .catch(err => reject(err));
+  });
+}
+
+describe("Users", function() {
   before(function() {
     return runServer(TEST_DATABASE_URL, 3000);
   });
 
-  before(function() {
-    return User.remove();
+  // before(function() {
+  //   return User.remove();
+  // });
+
+  describe("POST users", function() {
+    it("should create a new user"),
+      function(done) {
+        chai
+          .request(app)
+          .post("/api/users")
+          .send({
+            username: "TestUser",
+            password:
+              "$2b$10$XV9jYqJ8S32CgYIh4FuIJ.toAOYDZ2vttaeAhJnbbsPuLMdfZVazG", // Should be a bcrypt string
+            platform: "pc"
+          })
+          .end(function(err, res) {
+            res.should.have.status(201);
+            done();
+          });
+      };
   });
 
   after(function() {
     return closeServer();
   });
 
-  it("Should return an empty array given the database is empty", function() {
-    return chai
-      .request(app)
-      .get("/api/posts/")
-      .then(function(res) {
-        expect(res).to.have.status(200);
-        expect(res.body).to.eql([]);
-      });
-  });
+  // it("Should return an empty array given the database is empty", function() {
+  //   return chai
+  //     .request(app)
+  //     .get("/api/users/")
+  //     .then(function(res) {
+  //       expect(res).to.have.status(200);
+  //       expect(res.body).to.eql([]);
+  //     });
+  // });
 
-  describe("Create a user", function() {
-    beforeEach(async function() {
-      // Seed Users
-      const user = await User.create({
-        username: "TestUser",
-        password:
-          "$2b$10$XV9jYqJ8S32CgYIh4FuIJ.toAOYDZ2vttaeAhJnbbsPuLMdfZVazG", // Should be a bcrypt string
-        platform: "pc"
-      });
-      console.log(user);
-      // Seed Posts
-      await Post.insertMany([
-        {
-          postName: "Test Post",
-          user: user._id,
-          platform: "xb1",
-          region: "eu",
-          deadline: new Date(6 / 4 / 2019),
-          message: "test post message body"
-        }
-      ]);
-    });
+  // describe("Create a user", function() {
+  //   beforeEach(async function() {
+  //     // Seed Users
+  //     const user = await User.create({
+  // username: "TestUser",
+  // password:
+  //   "$2b$10$XV9jYqJ8S32CgYIh4FuIJ.toAOYDZ2vttaeAhJnbbsPuLMdfZVazG", // Should be a bcrypt string
+  // platform: "pc"
+  //     });
+  //     console.log(user);
+  //     // Seed Posts
+  //     await Post.insertMany([
+  //       {
+  //         postName: "Test Post",
+  //         user: user._id,
+  //         platform: "xb1",
+  //         region: "eu",
+  //         deadline: new Date(6 / 4 / 2019),
+  //         message: "test post message body"
+  //       }
+  //     ]);
+  //   });
 
-    afterEach(function() {
-      return User.remove() && Post.remove();
-    });
+  //   afterEach(function() {
+  //     return User.remove();
+  //   });
 
-    it("should", function() {
-      return chai
-        .request(app)
-        .post("/api/users/")
-        .send(() => {
-          console.log(user);
-        })
-        .then(function(res) {
-          expect(res).to.have.status;
-        });
-    });
-  });
+  // it("should", function() {
+  // return chai
+  //   .request(app)
+  //   .post("/api/users/")
+  //   .send(user)
+  //   .then(function(res) {
+  //     expect(res).to.have.status;
+  //     });
+  // });
+  // });
 });
 
 // Users

@@ -123,15 +123,13 @@ router.put("/:id", jsonParser, jwtAuth, (req, res) => {
   if (!req.body.message) {
     return res.status(400).send("Post message is required");
   } else {
-    // console.log(req.user);
-    // console.log(req.body);
     Post.findById({ _id: req.params.id })
       .populate("user")
       .populate("comments.user")
       .then(post => {
-        if (req.user === req.body.user) {
+        if (req.user.id == post.user._id) {
           Post.findByIdAndUpdate(
-            { _id: req.params.id },
+            { _id: post._id },
             {
               postName: req.body.postName,
               platform: req.body.platform,
@@ -139,7 +137,9 @@ router.put("/:id", jsonParser, jwtAuth, (req, res) => {
               region: req.body.region,
               message: req.body.message
             }
-          );
+          ).then(post => res.status(201).json(post.serialize()));
+        } else {
+          res.status(403).send("This post does not belong to you");
         }
       })
       // Post.findByIdAndUpdate(
@@ -152,10 +152,7 @@ router.put("/:id", jsonParser, jwtAuth, (req, res) => {
       //     message: req.body.message
       //   }
       // )
-      .then(post => {
-        // console.log(post);
-        return res.status(201).json(post);
-      })
+
       .catch(err => {
         console.error(err);
         res.status(500).send("Error while posting");

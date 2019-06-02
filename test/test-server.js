@@ -58,9 +58,13 @@ describe("Users", function() {
   //   return User.remove();
   // });
 
+  after(function() {
+    return closeServer();
+  });
+
   describe("POST users", function() {
     it("should create a new user"),
-      function(done) {
+      async function(done) {
         chai
           .request(app)
           .post("/api/users")
@@ -73,12 +77,9 @@ describe("Users", function() {
           .end(function(err, res) {
             res.should.have.status(201);
             done();
-          });
+          })
+          .finally(done);
       };
-  });
-
-  after(function() {
-    return closeServer();
   });
 
   // it("Should return an empty array given the database is empty", function() {

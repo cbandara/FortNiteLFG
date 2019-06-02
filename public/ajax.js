@@ -116,11 +116,14 @@ function putPostRequest(
     },
     error: function(err) {
       console.log(err);
-      if (err.status === 401) {
+      if (err.status == 401) {
         localStorage.clear();
         $(".js-alert-section").html(`<p>Your Session has expired</p>`);
         displayLoginPage();
         return;
+      }
+      if (err.status == 403) {
+        $(".js-alert-section").html(`<p>You do not own this post</p>`);
       }
       $(".js-alert-section").html(`<p>${err.responseText}</p>`);
     },

@@ -60,7 +60,7 @@ function handlePostSubmit(event) {
     .find(".create-deadline")
     .val();
   const region = $(event.currentTarget)
-    .find(".region")
+    .find(".region:checked")
     .val();
   const message = $(event.currentTarget)
     .find(".create-message")
@@ -114,7 +114,7 @@ function handleEditPostSubmit(event) {
     .find(".create-deadline")
     .val();
   const region = $(event.currentTarget)
-    .find(".region")
+    .find(".region:checked")
     .val();
   const message = $(event.currentTarget)
     .find(".create-message")

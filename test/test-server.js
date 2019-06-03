@@ -49,92 +49,138 @@ function tearDownDb() {
   });
 }
 
-describe("Users", function() {
+describe("API Tests", function() {
   before(function() {
     return runServer(TEST_DATABASE_URL, 3000);
   });
 
-  // before(function() {
-  //   return User.remove();
-  // });
+  before(function() {
+    return User.remove();
+  });
 
   after(function() {
     return closeServer();
   });
 
-  describe("POST users", function() {
-    it("should create a new user"),
-      async function(done) {
-        chai
-          .request(app)
-          .post("/api/users")
-          .send({
-            username: "TestUser",
-            password:
-              "$2b$10$XV9jYqJ8S32CgYIh4FuIJ.toAOYDZ2vttaeAhJnbbsPuLMdfZVazG", // Should be a bcrypt string
-            platform: "pc"
-          })
-          .end(function(err, res) {
-            res.should.have.status(201);
-            done();
-          })
-          .finally(done);
-      };
+  it("POST should create a new user", function() {
+    const newUser = {
+      username: "ninja",
+      password: "$2b$10$XV9jYqJ8S32CgYIh4FuIJ.toAOYDZ2vttaeAhJnbbsPuLMdfZVazG", // Should be a bcrypt string
+      platform: "pc"
+    };
+    console.log(newUser);
+    return chai
+      .request(app)
+      .post("/api/users/")
+      .send(newUser)
+      .then(function(res) {
+        res.should.have.status(201);
+        res.should.be.json;
+        res.body.should.be.a("object");
+        res.body.should.include.keys("username", "id");
+        res.body.username.should.equal(newUser.username);
+      });
   });
 
-  // it("Should return an empty array given the database is empty", function() {
+  it("POST should login with a valid user", function() {
+    const loginUser = {
+      username: "ninja",
+      password: "$2b$10$XV9jYqJ8S32CgYIh4FuIJ.toAOYDZ2vttaeAhJnbbsPuLMdfZVazG"
+    };
+    return chai
+      .request(app)
+      .post("/api/auth/login")
+      .send(loginUser)
+      .then(function(res) {
+        res.should.have.status(200);
+        res.should.be.json;
+        res.body.should.be.a("object");
+        res.body.should.include.keys("authToken");
+        // Need to save the authToken to use in the next test
+      });
+  });
+
+  it("POST should create a post", function() {
+    const newPost = {
+      postName: "Test Post",
+      platform: "xb1",
+      region: "eu",
+      deadline: new Date(6 / 4 / 2019),
+      message: "test post message body"
+    };
+    console.log();
+    return chai
+      .request(app)
+      .post("/api/auth/login")
+      .set({ Authorization: `Bearer ${authToken}` })
+      .send(newPost)
+      .then(function(res) {
+        res.should.have.status(201);
+      });
+  });
+
+  // it("GET should show all posts (not logged in)", function() {
   //   return chai
   //     .request(app)
-  //     .get("/api/users/")
-  //     .then(function(res) {
-  //       expect(res).to.have.status(200);
-  //       expect(res.body).to.eql([]);
+  //     .get("/api/posts/")
+  //     .then(res => {
+  //       res.should.have.status(200);
+  //       res.body.should.have.lengthOf.at.least(1);
   //     });
-  // });
-
-  // describe("Create a user", function() {
-  //   beforeEach(async function() {
-  //     // Seed Users
-  //     const user = await User.create({
-  // username: "TestUser",
-  // password:
-  //   "$2b$10$XV9jYqJ8S32CgYIh4FuIJ.toAOYDZ2vttaeAhJnbbsPuLMdfZVazG", // Should be a bcrypt string
-  // platform: "pc"
-  //     });
-  //     console.log(user);
-  //     // Seed Posts
-  //     await Post.insertMany([
-  //       {
-  //         postName: "Test Post",
-  //         user: user._id,
-  //         platform: "xb1",
-  //         region: "eu",
-  //         deadline: new Date(6 / 4 / 2019),
-  //         message: "test post message body"
-  //       }
-  //     ]);
-  //   });
-
-  //   afterEach(function() {
-  //     return User.remove();
-  //   });
-
-  // it("should", function() {
-  // return chai
-  //   .request(app)
-  //   .post("/api/users/")
-  //   .send(user)
-  //   .then(function(res) {
-  //     expect(res).to.have.status;
-  //     });
-  // });
   // });
 });
+
+// it("Should return an empty array given the database is empty", function() {
+//   return chai
+//     .request(app)
+//     .get("/api/users/")
+//     .then(function(res) {
+//       expect(res).to.have.status(200);
+//       expect(res.body).to.eql([]);
+//     });
+// });
+
+// describe("Create a user", function() {
+//   beforeEach(async function() {
+//     // Seed Users
+//     const user = await User.create({
+// username: "TestUser",
+// password:
+//   "$2b$10$XV9jYqJ8S32CgYIh4FuIJ.toAOYDZ2vttaeAhJnbbsPuLMdfZVazG", // Should be a bcrypt string
+// platform: "pc"
+//     });
+//     console.log(user);
+//     // Seed Posts
+//     await Post.insertMany([
+//       {
+// postName: "Test Post",
+// user: user._id,
+// platform: "xb1",
+// region: "eu",
+// deadline: new Date(6 / 4 / 2019),
+// message: "test post message body"
+//       }
+//     ]);
+//   });
+
+//   afterEach(function() {
+//     return User.remove();
+//   });
+
+// it("should", function() {
+// return chai
+//   .request(app)
+//   .post("/api/users/")
+//   .send(user)
+//   .then(function(res) {
+//     expect(res).to.have.status;
+//     });
+// });
+// });
 
 // Users
 // Create User
 // Login User
-// Logout User
 
 // Posts
 // Get All Posts(Logged in and out)

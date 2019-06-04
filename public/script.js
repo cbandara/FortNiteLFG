@@ -35,9 +35,10 @@ function handleRegisterSubmit(event) {
   const passwordConfirm = $(event.currentTarget)
     .find(".password-confirm")
     .val();
-  const platform = $(event.currentTarget)
-    .find("[name=platform]:checked")
-    .val();
+  // const platform = $(event.currentTarget)
+  //   .find("[name=platform]:checked")
+  //   .val();
+  const platform = "pc";
 
   if (password === passwordConfirm) {
     registerRequest(username, password, platform);

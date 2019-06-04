@@ -7,12 +7,17 @@ The application will allow users to find other Fortnite players to play with
 https://fierce-tundra-18202.herokuapp.com/
 
 When the application loads for the first time, users will be able to see the existing posts made by other users in the database.
+
 ![First Screen](readme-img/shot1.png)
+
 Users will have 3 options on the menu bar: Home, Login, and Register. The home button will show all the posts but will be different if you are logged in. Both the login and register buttons will take you to respective forms that make POST requests to the API. If you are a logged in, you will be able to reply to the posts and you will have access to the my posts page as well.
 If you click Home, it will reload the home page.
 If you click Login you will be directed to this form:
+
 ![Login Screen](readme-img/login.png)
+
 If you click on Register, you will be directed to this form:
+
 ![Register Screen](readme-img/register.png)
 
 The register form will allow you to create a new user in the database.
@@ -21,17 +26,23 @@ This is important as it validates that you are an actual fortnite player. In the
 The login form will allow you to login and access the protected features of the app such as: creating posts, editing posts, adding replies to posts, and deleting posts.
 
 You must register and then log in if you are a first time user. Once you are logged in the home screen will look like this:
+
 ![Logged In Home Screen](readme-img/logged-in-home.png)
 
 Here you have an extra reply button to reply to posts as well as the view button to view posts.
 The view button will show all the comments, whereas you can only see a few comments when looking at all the posts.
 The reply button will take you to a page displaying the post and replies with a form to add a reply.
+
 ![Reply Form](readme-img/reply-form.png)
+
 After you submit a reply you are redirected to the post you've replied to.
 On my posts page you will be able to see all of the posts you've created. If you haven't created a post this will be empty.
 From the my posts page you can: View, Reply, Edit, or Delete any of your posts.
 
+![My Posts](readme-img/my-posts.png)
+
 The Create Post button allows users to create a post.
+
 ![Create Post Form](readme-img/create-post.png)
 
 The log out button will delete your session and redirect you to the original home page that users who are not logged in initially see.

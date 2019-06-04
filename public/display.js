@@ -31,6 +31,7 @@ function displayLoginRegisterButton() {
 function displayPosts(posts) {
   const listOfPosts = posts.map(post => generatePostElement(post));
   $(`.js-content-section`).html(`
+    <p>Fortnite Squad Finder is a place for players to find other players to join their squad.</p>
     <ul class="posts-list">
       ${listOfPosts.join("")}
     </ul>
@@ -62,6 +63,7 @@ function displayLoginPage() {
   $(`.js-content-section`).html(`
     <form class="js-login-form login-form">
       <p>Username is case sensitive</p>
+      <p>Demo Login: username=ninja password=12345678</p>
       <label for="username-login">Username:</label>
       <input type="text" name="username-login" class="username-login">
       <br>

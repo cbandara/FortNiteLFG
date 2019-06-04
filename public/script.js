@@ -176,6 +176,7 @@ $(function onLoad() {
     getPostsRequest(displayPosts);
   } else {
     displayLoginRegisterButton();
+    displayFilterControls();
     getPostsRequest(displayPosts);
     $(`.js-view-btn`).css("display", "none");
     $(`.js-reply-btn`).css("display", "none");

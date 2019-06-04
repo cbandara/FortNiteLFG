@@ -220,7 +220,7 @@ function displayReplyPostPage(post) {
     </div>
     <br>
     <ul class="comments-section">
-      ${listOfComments.join("")}
+      ${generateReplies(post).join("")}
     </ul>
     <br>
     <form class="js-reply-form reply-form">
